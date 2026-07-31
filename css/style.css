@@ -689,7 +689,6 @@ section { padding-block: var(--space-16); }
 }
 
 .service-card--secondary .service-card__sun { width: 24px; opacity: 0.82; }
-.service-card--secondary h3 { font-size: var(--step-md); font-weight: 600; }
 
 .services__closing {
   margin-top: var(--space-16);
