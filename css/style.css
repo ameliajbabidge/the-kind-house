@@ -615,7 +615,7 @@ section { padding-block: var(--space-16); }
   font-family: var(--font-raw-serif);
   font-style: normal;
   font-weight: 700;
-  font-size: calc(var(--step-lg) * 1.2);
+  font-size: var(--step-md);
   line-height: 1.45;
   color: var(--color-charcoal);
 }
