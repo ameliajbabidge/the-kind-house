@@ -609,13 +609,14 @@ section { padding-block: var(--space-16); }
 .about-intro__lead { color: var(--color-charcoal-soft); }
 .about-intro__highlight-inline {
   font-family: var(--font-sans);
-  font-weight: 600;
+  font-style: italic;
+  font-weight: 400;
   color: var(--color-charcoal);
 }
 .about-intro__highlight {
   font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-size: var(--step-lg);
   line-height: 1.45;
   color: var(--color-charcoal);
