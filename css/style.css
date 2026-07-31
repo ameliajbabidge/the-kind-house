@@ -608,16 +608,14 @@ section { padding-block: var(--space-16); }
 }
 .about-intro__lead { color: var(--color-charcoal-soft); }
 .about-intro__highlight-inline {
-  font-family: var(--font-sans);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--color-charcoal);
+  font: inherit;
+  color: inherit;
 }
-.about-intro__highlight {
+.about-intro__copy .about-intro__highlight {
   font-family: var(--font-raw-serif);
   font-style: normal;
   font-weight: 700;
-  font-size: var(--step-lg);
+  font-size: calc(var(--step-lg) * 1.2);
   line-height: 1.45;
   color: var(--color-charcoal);
 }
