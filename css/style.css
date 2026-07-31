@@ -666,16 +666,41 @@ section { padding-block: var(--space-16); }
    Services
    ========================================================================== */
 
+.services__head { max-width: 36rem; }
+
 .service-card__sun { display: block; width: 32px; height: auto; margin-inline: auto; }
 .service-card h3 { margin-top: var(--space-4); font-size: var(--step-lg); font-family: var(--font-raw-serif); font-weight: 700; text-align: center; }
 .service-card p { margin-top: var(--space-3); color: var(--color-charcoal-soft); font-size: var(--step-sm); line-height: 1.7; text-align: center; }
 
 .services__grid {
-  margin-top: var(--space-16);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: clamp(1.5rem, 4vw, 3rem);
   row-gap: var(--space-12);
+}
+.services__grid--primary { margin-top: var(--space-16); }
+.services__grid--secondary {
+  margin-top: var(--space-14);
+  padding-top: var(--space-12);
+  border-top: var(--border-hairline);
+}
+
+.service-card--secondary .service-card__sun { width: 24px; opacity: 0.82; }
+.service-card--secondary h3 { font-size: var(--step-md); font-weight: 600; }
+
+.services__closing {
+  margin-top: var(--space-16);
+  max-width: 34rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.services__closing p {
+  font-family: var(--font-raw-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--step-md);
+  line-height: 1.6;
+  color: var(--color-charcoal);
 }
 
 @media (max-width: 900px) {
@@ -816,7 +841,7 @@ section { padding-block: var(--space-16); }
    Contact
    ========================================================================== */
 
-#contact h2, #work h2, #kind-words h2 {
+#contact h2, #work h2, #kind-words h2, .services__head h2 {
   font-family: var(--font-raw-serif);
   font-weight: 700;
   text-transform: uppercase;
