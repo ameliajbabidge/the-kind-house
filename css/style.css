@@ -614,9 +614,9 @@ section { padding-block: var(--space-16); }
   color: var(--color-charcoal);
 }
 .about-intro__highlight {
-  font-family: var(--font-sans);
+  font-family: var(--font-raw-serif);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: var(--step-lg);
   line-height: 1.45;
   color: var(--color-charcoal);
