@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journal — The Kind House</title>
+  <meta name="description" content="Notes on design, words, and running a small studio with care — from The Kind House.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="brand" aria-label="The Kind House — home">
+        <img src="assets/img/icon.png" alt="" class="brand__mark">
+        <span class="brand__word">The Kind House</span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <a href="index.html#contact" class="btn btn-primary header-cta">Let's create together</a>
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+          <span class="visually-hidden">Toggle menu</span>
+          <span class="nav-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Journal</p>
+        <h1 data-reveal>Some things I've been thinking about.</h1>
+        <p data-reveal>Notes on design, words, and running a small studio with care — written slowly, and only when I have something worth saying.</p>
+      </div>
+    </section>
+
+    <section style="padding-top: 0;">
+      <div class="container">
+        <div class="journal-index__grid">
+
+          <article class="journal-card" data-reveal>
+            <div class="journal-card__media tone-3"><span>Design</span></div>
+            <p class="journal-card__meta">Design · 6 min read</p>
+            <h3>What makes a website feel like home</h3>
+            <p>A few small, unglamorous details — pacing, whitespace, the words between the words — that quietly build trust before anyone reads a headline. I think about these far more than I talk about them, and this is me talking about them.</p>
+            <a href="#">Read the piece</a>
+          </article>
+
+          <article class="journal-card" data-reveal>
+            <div class="journal-card__media tone-1"><span>Words</span></div>
+            <p class="journal-card__meta">Words · 5 min read</p>
+            <h3>On writing like you talk</h3>
+            <p>Why the best website copy usually sounds less like marketing and more like a good conversation with someone who already trusts you.</p>
+            <a href="#">Read the piece</a>
+          </article>
+
+          <article class="journal-card" data-reveal>
+            <div class="journal-card__media tone-2"><span>Process</span></div>
+            <p class="journal-card__meta">Process · 4 min read</p>
+            <h3>The case for a slower launch</h3>
+            <p>What I've learned from resisting the urge to rush a website out the door, even when a client is (understandably) impatient to be live.</p>
+            <a href="#">Read the piece</a>
+          </article>
+
+          <article class="journal-card" data-reveal>
+            <div class="journal-card__media tone-3"><span>Studio notes</span></div>
+            <p class="journal-card__meta">Studio notes · 7 min read</p>
+            <h3>Why I stay small on purpose</h3>
+            <p>I could take on more projects. I choose not to, and here's the honest reasoning behind that, not just the marketing version of it.</p>
+            <a href="#">Read the piece</a>
+          </article>
+
+          <article class="journal-card" data-reveal>
+            <div class="journal-card__media tone-1"><span>Brand</span></div>
+            <p class="journal-card__meta">Brand · 5 min read</p>
+            <h3>Choosing colours that don't shout</h3>
+            <p>How I think about colour for a brand — less about what looks striking in a mood board, more about what still feels calm after the hundredth visit.</p>
+            <a href="#">Read the piece</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" id="contact" style="text-align:center;">
+      <div class="container" style="max-width: 34rem;">
+        <p class="eyebrow" data-reveal style="justify-content:center;">Enjoyed reading?</p>
+        <h2 data-reveal style="margin-top:1rem; font-size: var(--step-2xl);">Let's put some of this into practice for you.</h2>
+        <div data-reveal style="margin-top:2rem; display:flex; justify-content:center;">
+          <a href="index.html#contact" class="btn btn-primary">Let's create together
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__bottom-only">
+      <a href="index.html" class="brand">
+        <img src="assets/img/the%20kind%20house%20logo.png" alt="The Kind House" class="brand__logo brand__logo--footer">
+      </a>
+      <p class="footer__copyright">&copy; <span id="year"></span> The Kind House. Made with care.</p>
+      <p class="footer__credit">Designed, written, and built by Amelia Babidge.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
