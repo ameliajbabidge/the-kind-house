@@ -429,8 +429,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
    ========================================================================== */
 
 .hero {
-  height: 100svh;
-  min-height: 640px;
+  min-height: max(100svh, 640px);
   display: flex;
   align-items: center;
   padding-top: var(--header-h);
@@ -455,8 +454,6 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   max-width: 42rem;
   margin-inline: auto;
   padding-block: var(--space-8);
-  max-height: 100%;
-  overflow: hidden;
 }
 
 .hero--photo {
