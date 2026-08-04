@@ -497,6 +497,9 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   color: var(--color-on-dark);
 }
 .hero__title em { font-style: italic; color: var(--color-honey); white-space: nowrap; }
+@media (min-width: 420px) {
+  .hero__title-line { white-space: nowrap; }
+}
 
 .hero__lede {
   margin-top: var(--space-6);

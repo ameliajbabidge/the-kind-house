@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept mockup — Process + Project stats</title>
+<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Playfair+Display+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,700;1,600&family=Libre+Bodoni:ital,wght@0,700;1,600&family=Bodoni+Moda:wght@700&family=Lora:wght@700&family=Cinzel:wght@700&family=Newsreader:wght@700&family=Libre+Baskerville:wght@700&family=Source+Serif+4:wght@400;700&family=Poppins:wght@600;700&family=Calistoga&family=Inter:wght@400;500&family=Montserrat:wght@400;500&family=Public+Sans:wght@400;500&family=Karla:wght@400;500&family=Raleway:wght@400;500&family=Josefin+Sans:wght@400;500&family=Roboto:wght@400;500&family=Jost:wght@400;500&family=Open+Sans:wght@400;500&family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;700&family=Archivo:wght@400;500&family=Outfit:wght@400;500;700&display=swap">
+<style>
+  .mockup-fonts { padding-block: var(--space-16); background: var(--color-bg-alt); }
+  .mockup-fonts__head { max-width: 34rem; margin-inline: auto; text-align: center; }
+  .mockup-fonts__head h2 { font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; font-size: var(--step-2xl); }
+  .mockup-font-row { max-width: 50rem; margin: var(--space-10) auto 0; padding: var(--space-8); border-radius: 1rem; background: var(--color-bg); border: 1px solid var(--color-border); }
+  .mockup-font-row + .mockup-font-row { margin-top: var(--space-6); }
+  .mockup-font-row__label { font-family: var(--font-sans); font-size: var(--step-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-honey-deep); }
+  .mockup-font-row__heading { margin-top: var(--space-3); font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; color: var(--color-charcoal); }
+  .mockup-font-row__body { margin-top: var(--space-4); font-size: var(--step-md); color: var(--color-charcoal-soft); line-height: 1.6; max-width: 34rem; }
+  .mockup-font-row--lux { border-color: var(--color-honey-deep); border-width: 2px; }
+  .mockup-mono-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-honey-deep); margin-bottom: var(--space-3); }
+  .mockup-font-row--current .mockup-font-row__heading { font-family: var(--font-raw-serif); }
+  .mockup-font-row--current .mockup-font-row__body { font-family: var(--font-sans); }
+  .mockup-font-row--a .mockup-font-row__heading { font-family: 'Playfair Display', serif; text-transform: none; letter-spacing: 0; }
+  .mockup-font-row--a .mockup-font-row__body { font-family: 'Inter', sans-serif; }
+  .mockup-font-row--b .mockup-font-row__heading { font-family: 'Cormorant Garamond', serif; }
+  .mockup-font-row--b .mockup-font-row__body { font-family: 'Montserrat', sans-serif; }
+  .mockup-font-row--c .mockup-font-row__heading { font-family: 'Libre Bodoni', serif; text-transform: none; letter-spacing: 0; }
+  .mockup-font-row--c .mockup-font-row__body { font-family: 'Public Sans', sans-serif; }
+  body { background: var(--color-bg); }
+  .mockup-banner {
+    background: var(--color-charcoal);
+    color: var(--color-on-dark);
+    text-align: center;
+    padding: 1rem;
+    font-family: var(--font-sans);
+    font-size: var(--step-sm);
+    letter-spacing: 0.04em;
+  }
+  .mockup-label {
+    font-family: var(--font-sans);
+    font-size: var(--step-xs);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-honey-deep);
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+
+  /* ---- Process section ---- */
+  .mockup-process { padding-block: var(--space-16); }
+  .mockup-process__head { max-width: 34rem; margin-inline: auto; text-align: center; }
+  .mockup-process__head h2 {
+    font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.01em; font-size: var(--step-2xl);
+  }
+  .mockup-process__head p { margin-top: var(--space-5); color: var(--color-charcoal-soft); font-size: var(--step-md); }
+  .mockup-process__list { max-width: 46rem; margin: var(--space-16) auto 0; position: relative; }
+  .mockup-process__list::before {
+    content: ''; position: absolute; left: 27px; top: 8px; bottom: 8px; width: 1px;
+    background: var(--color-border);
+  }
+  .mockup-process__item { position: relative; padding-left: 4.5rem; padding-bottom: var(--space-12); }
+  .mockup-process__item:last-child { padding-bottom: 0; }
+  .mockup-process__num {
+    position: absolute; left: 0; top: 0; width: 56px; height: 56px; border-radius: 50%;
+    background: var(--color-bg-alt); border: 1px solid var(--color-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-md); color: var(--color-charcoal);
+  }
+  .mockup-process__item h3 {
+    font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-lg); color: var(--color-charcoal);
+  }
+  .mockup-process__item p { margin-top: var(--space-2); color: var(--color-charcoal-soft); font-size: var(--step-sm); max-width: 30rem; }
+
+  /* ---- Beefed-up project card ---- */
+  .mockup-project { padding-block: var(--space-16); background: var(--color-bg-alt); }
+  .mockup-project__head { max-width: 34rem; margin-inline: auto; text-align: center; }
+  .mockup-project__head h2 {
+    font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.01em; font-size: var(--step-2xl);
+  }
+  .mockup-project-card {
+    max-width: 68rem; margin: var(--space-16) auto 0;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .mockup-project-card__media { aspect-ratio: 4/3; border-radius: 1rem; overflow: hidden; border: 1px solid var(--color-border); }
+  .mockup-project-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mockup-project-card h3 { font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-xl); }
+  .mockup-project-card p { margin-top: var(--space-3); color: var(--color-charcoal-soft); font-size: var(--step-sm); line-height: 1.7; max-width: 30rem; }
+  .mockup-stats { display: flex; gap: var(--space-8); margin-top: var(--space-6); padding-top: var(--space-6); border-top: var(--border-hairline); }
+  .mockup-stat dt { font-family: var(--font-sans); font-size: var(--step-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-charcoal-faint); }
+  .mockup-stat dd { margin: 0.35rem 0 0; font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-xl); color: var(--color-charcoal); }
+  .mockup-stat-note { margin-top: var(--space-8); text-align: center; font-size: var(--step-xs); color: var(--color-charcoal-faint); font-style: italic; }
+
+  /* ---- FAQ concept ---- */
+  .mockup-faq { padding-block: var(--space-16); }
+  .mockup-faq__grid { max-width: 60rem; margin-inline: auto; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  .mockup-faq__intro h2 { font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; font-size: var(--step-2xl); }
+  .mockup-faq-item { border-top: var(--border-hairline); }
+  .mockup-faq-item:last-child { border-bottom: var(--border-hairline); }
+  .mockup-faq-item__q {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    padding-block: var(--space-6); background: none; border: none; text-align: left; cursor: pointer;
+    font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-md); color: var(--color-charcoal);
+  }
+  .mockup-faq-item__icon { flex-shrink: 0; width: 1.1rem; height: 1.1rem; color: var(--color-honey-deep); transition: transform 0.3s ease; }
+  .mockup-faq-item.is-open .mockup-faq-item__icon { transform: rotate(45deg); }
+  .mockup-faq-item__a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--color-charcoal-soft); font-size: var(--step-sm); }
+  .mockup-faq-item.is-open .mockup-faq-item__a { padding-bottom: var(--space-6); }
+
+  /* ---- Pricing concept ---- */
+  .mockup-pricing { padding-block: var(--space-16); background: var(--color-bg-alt); }
+  .mockup-pricing__head { max-width: 34rem; margin-inline: auto; text-align: center; }
+  .mockup-pricing__head h2 { font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; font-size: var(--step-2xl); }
+  .mockup-pricing__head p { margin-top: var(--space-5); color: var(--color-charcoal-soft); font-size: var(--step-md); }
+  .mockup-pricing__grid { max-width: 62rem; margin: var(--space-16) auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
+  .mockup-price-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 1.25rem; padding: var(--space-8); display: flex; flex-direction: column; }
+  .mockup-price-card--featured { border-color: var(--color-honey-deep); border-width: 2px; }
+  .mockup-price-card__eyebrow { font-family: var(--font-sans); font-size: var(--step-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-honey-deep); }
+  .mockup-price-card h3 { margin-top: var(--space-3); font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-lg); }
+  .mockup-price-card__price { margin-top: var(--space-3); font-family: var(--font-raw-serif); font-weight: 700; font-size: var(--step-2xl); color: var(--color-charcoal); }
+  .mockup-price-card__price span { font-family: var(--font-sans); font-size: var(--step-sm); font-weight: 400; color: var(--color-charcoal-faint); }
+  .mockup-price-card ul { margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .mockup-price-card li { font-size: var(--step-sm); color: var(--color-charcoal-soft); padding-left: 1.2rem; position: relative; }
+  .mockup-price-card li::before { content: '—'; position: absolute; left: 0; color: var(--color-honey-deep); }
+  .mockup-price-card .btn { margin-top: var(--space-8); justify-content: center; }
+
+  /* ---- Copy before/after concept ---- */
+  .mockup-copy { padding-block: var(--space-16); }
+  .mockup-copy__head { max-width: 34rem; margin-inline: auto; text-align: center; }
+  .mockup-copy__head h2 { font-family: var(--font-raw-serif); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; font-size: var(--step-2xl); }
+  .mockup-copy__block { max-width: 46rem; margin: var(--space-12) auto 0; }
+  .mockup-copy__block + .mockup-copy__block { margin-top: var(--space-16); }
+  .mockup-copy__where { font-family: var(--font-sans); font-size: var(--step-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-honey-deep); }
+  .mockup-copy__row { margin-top: var(--space-4); padding: var(--space-6); border-radius: 1rem; border: 1px solid var(--color-border); }
+  .mockup-copy__row + .mockup-copy__row { margin-top: var(--space-3); }
+  .mockup-copy__row--before { opacity: 0.55; }
+  .mockup-copy__row--after { border-color: var(--color-honey-deep); border-width: 2px; background: var(--color-bg-alt); }
+  .mockup-copy__tag { display: inline-block; font-family: var(--font-sans); font-size: var(--step-xs); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--space-2); }
+  .mockup-copy__row--before .mockup-copy__tag { color: var(--color-charcoal-faint); }
+  .mockup-copy__row--after .mockup-copy__tag { color: var(--color-honey-deep); }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">CONCEPT MOCKUP — not part of the live site — for discussion only</div>
+
+<!-- ============ FONT COMPARISON CONCEPT ============ -->
+<section class="mockup-fonts">
+  <div class="container mockup-fonts__head">
+    <span class="mockup-label">Typography Options</span>
+    <h2>Same Headline, Four Fonts</h2>
+  </div>
+
+  <div class="container">
+    <div class="mockup-font-row mockup-font-row--current">
+      <div class="mockup-font-row__label">Current — Raw Serif + Work Sans</div>
+      <div class="mockup-font-row__heading">What I Can Help With</div>
+      <p class="mockup-font-row__body">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--a">
+      <div class="mockup-font-row__label">Option A — Playfair Display + Inter</div>
+      <div class="mockup-font-row__heading">What I Can Help With</div>
+      <p class="mockup-font-row__body">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--b">
+      <div class="mockup-font-row__label">Option B — Cormorant Garamond + Montserrat</div>
+      <div class="mockup-font-row__heading">What I Can Help With</div>
+      <p class="mockup-font-row__body">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--c">
+      <div class="mockup-font-row__label">Option C — Libre Bodoni + Public Sans</div>
+      <div class="mockup-font-row__heading">What I Can Help With</div>
+      <p class="mockup-font-row__body">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">1 — Bodoni Moda + Jost</div>
+      <div class="mockup-font-row__heading" style="font-family:'Bodoni Moda',serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Jost',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">2 — Playfair Display SC + Karla</div>
+      <div class="mockup-font-row__heading" style="font-family:'Playfair Display SC',serif;">WHAT I CAN HELP WITH</div>
+      <p class="mockup-font-row__body" style="font-family:'Karla',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">3 — Lora + Raleway</div>
+      <div class="mockup-font-row__heading" style="font-family:'Lora',serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Raleway',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">4 — Cinzel + Josefin Sans</div>
+      <div class="mockup-font-row__heading" style="font-family:'Cinzel',serif;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Josefin Sans',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">5 — Newsreader + Roboto</div>
+      <div class="mockup-font-row__heading" style="font-family:'Newsreader',serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Roboto',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">6 — Cormorant Garamond + Libre Baskerville</div>
+      <div class="mockup-font-row__heading" style="font-family:'Cormorant Garamond',serif;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Libre Baskerville',serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">7 — Playfair Display (black) + Source Serif 4</div>
+      <div class="mockup-font-row__heading" style="font-family:'Playfair Display',serif; font-weight:900; text-transform:none; letter-spacing:-0.01em;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Source Serif 4',serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">8 — DM Sans (Satoshi/General Sans approximation, sans-only)</div>
+      <div class="mockup-font-row__heading" style="font-family:'DM Sans',sans-serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'DM Sans',sans-serif; font-weight:400;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">9 — Poppins + Open Sans</div>
+      <div class="mockup-font-row__heading" style="font-family:'Poppins',sans-serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Open Sans',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row">
+      <div class="mockup-font-row__label">10 — Calistoga + Inter</div>
+      <div class="mockup-font-row__heading" style="font-family:'Calistoga',serif; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Inter',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+
+    <div class="mockup-font-row mockup-font-row--lux">
+      <div class="mockup-font-row__label">11 — Fraunces + Inter + mono label (closest match to your screenshots)</div>
+      <span class="mockup-mono-label">What I Can Help With</span>
+      <div class="mockup-font-row__heading" style="font-family:'Fraunces',serif; font-weight:500; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Inter',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--lux">
+      <div class="mockup-font-row__label">12 — Playfair Display + Source Serif 4 + mono label</div>
+      <span class="mockup-mono-label">What I Can Help With</span>
+      <div class="mockup-font-row__heading" style="font-family:'Playfair Display',serif; font-weight:400; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Source Serif 4',serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--lux">
+      <div class="mockup-font-row__label">13 — Space Grotesk + Archivo (sans-only, most tech-minimal)</div>
+      <span class="mockup-mono-label">What I Can Help With</span>
+      <div class="mockup-font-row__heading" style="font-family:'Space Grotesk',sans-serif; font-weight:500; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:'Archivo',sans-serif;">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+    <div class="mockup-font-row mockup-font-row--lux">
+      <div class="mockup-font-row__label">14 — Outfit + your current Work Sans (lowest-effort swap)</div>
+      <span class="mockup-mono-label">What I Can Help With</span>
+      <div class="mockup-font-row__heading" style="font-family:'Outfit',sans-serif; font-weight:500; text-transform:none; letter-spacing:0;">What I Can Help With</div>
+      <p class="mockup-font-row__body" style="font-family:var(--font-sans);">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS CONCEPT ============ -->
+<section class="mockup-process">
+  <div class="container mockup-process__head">
+    <span class="mockup-label">How We Work</span>
+    <h2>A Calm Process, Start to Finish</h2>
+    <p>No handoffs, no guesswork — just a clear path from our first conversation to a website that feels like you.</p>
+  </div>
+
+  <div class="mockup-process__list">
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">01</div>
+      <h3>Discovery</h3>
+      <p>A conversation about your business, your story, and what you actually need — words, a website, or both.</p>
+    </div>
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">02</div>
+      <h3>Words First</h3>
+      <p>I write your copy before any design begins, so every page starts with something true to say.</p>
+    </div>
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">03</div>
+      <h3>Design</h3>
+      <p>A layout built around your brand and your words — never a template stretched to fit.</p>
+    </div>
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">04</div>
+      <h3>Build &amp; Review</h3>
+      <p>A considered build, checked on real devices, with room for your feedback before anything goes live.</p>
+    </div>
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">05</div>
+      <h3>Launch</h3>
+      <p>A calm, well-tested go-live — no scrambling, no surprises.</p>
+    </div>
+    <div class="mockup-process__item">
+      <div class="mockup-process__num">06</div>
+      <h3>Ongoing Care</h3>
+      <p>I'm still here after launch — for small edits, new pages, or just a question.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECT CARD WITH STATS CONCEPT ============ -->
+<section class="mockup-project">
+  <div class="container">
+    <div class="mockup-project__head">
+      <span class="mockup-label">Featured Project</span>
+      <h2>Selected Work</h2>
+    </div>
+
+    <div class="mockup-project-card">
+      <a class="mockup-project-card__media" href="#">
+        <img src="assets/img/ohm%20image.jpg" alt="The Ohm">
+      </a>
+      <div>
+        <span class="mockup-label">Boutique Hotel</span>
+        <h3>The Ohm</h3>
+        <p>Brand identity, website design, and copywriting for a luxury oceanfront hotel on Thomas Beach, Uluwatu.</p>
+        <dl class="mockup-stats">
+          <div class="mockup-stat">
+            <dt>Scope</dt>
+            <dd>Copy + Design</dd>
+          </div>
+          <div class="mockup-stat">
+            <dt>Turnaround</dt>
+            <dd>4 Weeks</dd>
+          </div>
+          <div class="mockup-stat">
+            <dt>Pages</dt>
+            <dd>6</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+    <p class="mockup-stat-note">Example values shown — swap in your real turnaround times, scope, or results once you have them.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ CONCEPT ============ -->
+<section class="mockup-faq">
+  <div class="container mockup-faq__grid">
+    <div class="mockup-faq__intro">
+      <span class="mockup-label">FAQ</span>
+      <h2>Good Questions, Answered Plainly</h2>
+    </div>
+
+    <div>
+      <div class="mockup-faq-item">
+        <button class="mockup-faq-item__q" data-faq>
+          How is The Kind House different from a typical agency?
+          <svg class="mockup-faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="mockup-faq-item__a"><p>I keep things intentionally small — you work directly with me from the first conversation to launch, not a rotating account team.</p></div>
+      </div>
+      <div class="mockup-faq-item">
+        <button class="mockup-faq-item__q" data-faq>
+          Do you only design websites, or write copy too?
+          <svg class="mockup-faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="mockup-faq-item__a"><p>Both, together or separately. Most projects start with the words, since they shape everything the design needs to do.</p></div>
+      </div>
+      <div class="mockup-faq-item">
+        <button class="mockup-faq-item__q" data-faq>
+          How long does a typical project take?
+          <svg class="mockup-faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="mockup-faq-item__a"><p>Most website and copywriting projects take three to six weeks, depending on scope and how quickly feedback comes back.</p></div>
+      </div>
+      <div class="mockup-faq-item">
+        <button class="mockup-faq-item__q" data-faq>
+          What if I already have a website and just need new copy?
+          <svg class="mockup-faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="mockup-faq-item__a"><p>That's completely fine — copywriting on its own is one of the most common projects I take on.</p></div>
+      </div>
+      <div class="mockup-faq-item">
+        <button class="mockup-faq-item__q" data-faq>
+          Do you offer support after launch?
+          <svg class="mockup-faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="mockup-faq-item__a"><p>Yes — I'm still here for small edits, new pages, or just a question, long after the site goes live.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING CONCEPT ============ -->
+<section class="mockup-pricing">
+  <div class="container">
+    <div class="mockup-pricing__head">
+      <span class="mockup-label">Investment</span>
+      <h2>What It Costs</h2>
+      <p>Every project is quoted around what you actually need — these are starting points, not the final word.</p>
+    </div>
+
+    <div class="mockup-pricing__grid">
+      <div class="mockup-price-card">
+        <span class="mockup-price-card__eyebrow">Copywriting</span>
+        <h3>Words, Done Well</h3>
+        <div class="mockup-price-card__price">From $XXX</div>
+        <ul>
+          <li>Up to 5 pages of website copy</li>
+          <li>One discovery call</li>
+          <li>Two rounds of revisions</li>
+          <li>A voice that sounds like you</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Enquire</a>
+      </div>
+      <div class="mockup-price-card mockup-price-card--featured">
+        <span class="mockup-price-card__eyebrow">Most Popular</span>
+        <h3>Copy + Website</h3>
+        <div class="mockup-price-card__price">From $X,XXX</div>
+        <ul>
+          <li>Everything in Copywriting</li>
+          <li>Custom-designed website</li>
+          <li>Mobile responsive build</li>
+          <li>Launch support included</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Enquire</a>
+      </div>
+      <div class="mockup-price-card">
+        <span class="mockup-price-card__eyebrow">Website Design</span>
+        <h3>A Home for Your Brand</h3>
+        <div class="mockup-price-card__price">From $XXX</div>
+        <ul>
+          <li>Custom-designed pages</li>
+          <li>Built around your existing copy</li>
+          <li>Mobile responsive</li>
+          <li>Basic SEO setup</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Enquire</a>
+      </div>
+    </div>
+    <p class="mockup-stat-note">Placeholder pricing shown — replace with real numbers, or keep it vaguer ("From $XXX") if you'd rather not commit to exact figures publicly.</p>
+  </div>
+</section>
+
+<!-- ============ COPY BEFORE/AFTER CONCEPT ============ -->
+<section class="mockup-copy">
+  <div class="container mockup-copy__head">
+    <span class="mockup-label">Website Design First</span>
+    <h2>Three Copy Changes</h2>
+  </div>
+
+  <div class="container">
+    <div class="mockup-copy__block">
+      <div class="mockup-copy__where">Hero subline</div>
+      <div class="mockup-copy__row mockup-copy__row--before">
+        <span class="mockup-copy__tag">Before</span>
+        <p class="hero__lede" style="color: var(--color-charcoal); opacity: 1;">A home for thoughtful brands.<br>Copywriting &amp; website design, crafted with kindness &amp; care.</p>
+      </div>
+      <div class="mockup-copy__row mockup-copy__row--after">
+        <span class="mockup-copy__tag">After</span>
+        <p class="hero__lede" style="color: var(--color-charcoal); opacity: 1;">A home for thoughtful brands.<br>Website design &amp; copywriting, crafted with kindness &amp; care.</p>
+      </div>
+    </div>
+
+    <div class="mockup-copy__block">
+      <div class="mockup-copy__where">"What I Can Help With" intro</div>
+      <div class="mockup-copy__row mockup-copy__row--before">
+        <span class="mockup-copy__tag">Before</span>
+        <p style="font-size: var(--step-sm); color: var(--color-charcoal-soft);">Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
+      </div>
+      <div class="mockup-copy__row mockup-copy__row--after">
+        <span class="mockup-copy__tag">After</span>
+        <p style="font-size: var(--step-sm); color: var(--color-charcoal-soft);">From hotels and salons to tradies and studios, every business is different, so every project is too. Whether you need a thoughtful website, the right words, or both, we'll create something that feels true to your business.</p>
+      </div>
+    </div>
+
+    <div class="mockup-copy__block">
+      <div class="mockup-copy__where">About section, industries line</div>
+      <div class="mockup-copy__row mockup-copy__row--before">
+        <span class="mockup-copy__tag">Before</span>
+        <p style="font-size: var(--step-sm); color: var(--color-charcoal-soft); line-height: 1.7;">I've been lucky enough to work with businesses across hospitality, wellness, lifestyle, sustainability, publishing, and the creative industries, helping them find a voice that feels true to who they are.</p>
+      </div>
+      <div class="mockup-copy__row mockup-copy__row--after">
+        <span class="mockup-copy__tag">After</span>
+        <p style="font-size: var(--step-sm); color: var(--color-charcoal-soft); line-height: 1.7;">I've been lucky enough to work with small businesses across hospitality, trades, beauty, wellness, and the creative industries, helping them find a voice that feels true to who they are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-faq]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.mockup-faq-item');
+      const answer = item.querySelector('.mockup-faq-item__a');
+      const isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      answer.style.maxHeight = !isOpen ? answer.scrollHeight + 'px' : null;
+    });
+  });
+</script>
+
+</body>
+</html>

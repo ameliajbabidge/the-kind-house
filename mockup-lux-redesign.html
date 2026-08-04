@@ -26,8 +26,44 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <link rel="icon" href="assets/favicon.ico">
   <link rel="stylesheet" href="css/style.css?v=2">
+<style>
+  /* ===== LUX/PROFESSIONAL CONCEPT OVERRIDES — mockup only ===== */
+  .lux-mockup-banner {
+    position: relative; z-index: 400;
+    background: var(--color-charcoal); color: var(--color-on-dark);
+    text-align: center; padding: 1rem;
+    font-family: var(--font-sans); font-size: var(--step-sm); letter-spacing: 0.04em;
+  }
+
+  /* 1. Sentence case instead of full uppercase on major headings */
+  .hero__title,
+  .intro__statement,
+  .section-head h2,
+  .about__title,
+  #contact h2, #work h2, #kind-words h2, .services__head h2 {
+    text-transform: none !important;
+  }
+
+  /* 2. Small tracked eyebrow labels above section headings */
+  .lux-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--step-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-honey-deep);
+    margin-bottom: var(--space-3);
+  }
+  .about-intro .lux-eyebrow { text-align: center; }
+  #contact .lux-eyebrow { margin-bottom: var(--space-2); }
+
+  /* 3. Dial back the paper grain texture */
+  body::after { opacity: 0.015 !important; }
+</style>
 </head>
 <body class="has-hero-photo">
+<div class="lux-mockup-banner">CONCEPT MOCKUP — sentence-case headings + eyebrow labels + reduced grain — not part of the live site</div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header site-header--stacked" id="site-header">
@@ -67,8 +103,8 @@
 
       <div class="container hero__inner">
         <div class="hero__content">
-          <h1 class="hero__title" data-reveal><span class="hero__title-line">Every beautiful brand</span><br>deserves a place to<br><em>feel at home.</em></h1>
-          <p class="hero__lede" data-reveal>A home for thoughtful brands.<br>Website design &amp; copywriting, crafted with kindness &amp; care.</p>
+          <h1 class="hero__title" data-reveal>Every beautiful brand deserves<br>a place to<br><em>feel at home.</em></h1>
+          <p class="hero__lede" data-reveal>A home for thoughtful brands.<br>Copywriting &amp; website design, crafted with kindness &amp; care.</p>
 
           <div class="hero__actions" data-reveal>
             <a href="#contact" class="btn btn-primary">Start Your Project
@@ -104,6 +140,7 @@
         <div class="about-intro-row__text">
           <div class="section-head about-intro">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="about-intro__sun" aria-hidden="true">
+            <span class="lux-eyebrow">How I Help</span>
             <h2 data-reveal>What I Do</h2>
             <div class="about-intro__copy" data-reveal>
               <p class="about-intro__lead">The Kind House helps thoughtful businesses tell their story through words that feel honest and websites that feel like home.</p>
@@ -122,6 +159,7 @@
       <div class="services__band">
       <div class="container">
         <div class="section-head center services__head">
+          <span class="lux-eyebrow">Services</span>
           <h2 data-reveal>What I Can Help With</h2>
           <p data-reveal>Every business is different, so every project is too. Whether you're looking for the right words, a thoughtful website, or both, we'll create something that feels true to your business.</p>
         </div>
@@ -176,6 +214,7 @@
           <img src="assets/img/me%202.jpg" alt="" loading="lazy">
         </div>
         <div data-reveal>
+          <span class="lux-eyebrow">Who I Am</span>
           <h2 class="about__title">About</h2>
           <p class="about__body">Hi, I'm Amelia. I'm an Australian copywriter, editor, and creative director. Writing has always been at the heart of what I do, and The Kind House grew from a love of helping thoughtful businesses find the right words to tell their story.</p>
           <p class="about__body">For me, words come first. A beautiful website might catch someone's attention, but it's the right words that create connection. That's why I write every piece of copy myself, taking the time to understand what makes each business unique. Once the words are in place, I work closely with my small design team to bring them to life through thoughtful, beautifully crafted websites.</p>
@@ -188,6 +227,7 @@
     <section id="work" class="section-alt">
       <div class="container">
         <div class="section-head center" style="max-width: 34rem; margin-inline: auto;">
+          <span class="lux-eyebrow">Selected Work</span>
           <h2 data-reveal>Projects</h2>
           <p data-reveal>A handful of projects that capture the heart of what I do — thoughtful words, intentional design, and meaningful collaboration.</p>
         </div>
@@ -225,6 +265,7 @@
     <section id="kind-words">
       <div class="container">
         <div class="section-head center" style="max-width: none; margin-inline: auto;">
+          <span class="lux-eyebrow">Testimonials</span>
           <h2 data-reveal>Kind Words</h2>
           <p data-reveal class="kind-words__subtitle">What it's like working together.</p>
         </div>
@@ -259,6 +300,7 @@
     <section id="contact" class="section-alt">
       <div class="container contact__grid">
         <div data-reveal>
+          <span class="lux-eyebrow">Contact</span>
           <h2>Get in Touch</h2>
           <p class="contact__lead">Tell me about your business. I'd love to hear your story.</p>
           <p class="contact__body">Whether you're just getting started or looking for a fresh perspective, I'd love to learn more about what you're building. Every project begins with a conversation, and together we'll see whether The Kind House feels like the right fit.</p>
