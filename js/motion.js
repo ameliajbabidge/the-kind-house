@@ -87,48 +87,23 @@
     });
   }
 
-  // ---------- About: photo and text rise into place together ----------
-  // Same scrub-tied approach as the intro rise above, but both the
-  // portrait and the text column share a single trigger/timeline so they
-  // move in lockstep rather than at their own independent paces.
-  function setupAboutRise() {
-    const aboutVisual = document.querySelector('.about__visual');
-    const aboutText = document.querySelector('.about__text');
-    if (!aboutVisual || !aboutText) return;
-    gsap.fromTo(
-      [aboutVisual, aboutText],
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#about',
-          start: 'top 85%',
-          end: 'top 40%',
-          scrub: true,
-        },
-      }
-    );
-  }
-
   // Every scroll-scrubbed video section (hero, dolphin, bird, ...) registers
   // itself in window.__ktScrollVideos instead of setting up independently —
   // see hero-scroll.js for why. Create all of their pins together, in page
   // order, once every one of their videos is ready, then anything below
-  // them on the page (like the intro/about rises above) that depends on
-  // their final pinned height.
+  // them on the page (like the intro rise above) that depends on their
+  // final pinned height. The About photo/text now live inside the dolphin
+  // video's own overlay (see dolphin-scroll.js) instead of a separate
+  // scroll-triggered reveal here.
   const scrollVideos = window.__ktScrollVideos || [];
   if (scrollVideos.length) {
     Promise.all(scrollVideos.map((v) => v.ready)).then(() => {
       scrollVideos.forEach((v) => v.setup());
       setupIntroRise();
-      setupAboutRise();
       ScrollTrigger.refresh();
     });
   } else {
     setupIntroRise();
-    setupAboutRise();
   }
 
   // Late-loading fonts/images can still shift section heights after that.
