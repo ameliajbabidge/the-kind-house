@@ -3,6 +3,8 @@
 
   const video = document.getElementById('hero-video');
   const heroSection = document.querySelector('.hero--photo');
+  const heroContent = document.querySelector('.hero__content');
+  const scrollCue = document.querySelector('.scroll-cue');
   if (!video || !heroSection) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -74,6 +76,21 @@
       onUpdate(self) {
         target = self.progress * (video.duration || 0);
         requestRender();
+
+        // Fade the hero copy and CTA out early in the scroll, well before
+        // the video moves past its opening scene, so they never sit awkwardly
+        // over later frames. Scrubs both ways with the video itself.
+        const FADE_OUT_BY = 0.15;
+        const fade = Math.min(self.progress / FADE_OUT_BY, 1);
+        const opacity = 1 - fade;
+        if (heroContent) {
+          heroContent.style.opacity = opacity;
+          heroContent.style.transform = `translateY(${fade * -24}px)`;
+          heroContent.style.pointerEvents = opacity < 0.05 ? 'none' : '';
+        }
+        if (scrollCue) {
+          scrollCue.style.opacity = opacity;
+        }
       },
     });
   }

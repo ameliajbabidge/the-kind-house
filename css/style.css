@@ -490,7 +490,14 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   background: linear-gradient(180deg, rgba(28, 26, 24, 0.25), rgba(28, 26, 24, 0.5) 65%, rgba(28, 26, 24, 0.68));
 }
 
-.hero__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.15s linear, transform 0.15s linear;
+}
 
 .hero__title {
   font-family: var(--font-raw-serif);
@@ -536,6 +543,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-charcoal-faint);
+  transition: opacity 0.15s linear;
 }
 .scroll-cue__line { width: 32px; height: 1px; background: currentColor; }
 
