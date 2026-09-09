@@ -4,6 +4,7 @@
   const video = document.getElementById('bird-video');
   const section = video ? video.closest('.dolphin-scroll') : null;
   const content = section ? section.querySelector('.dolphin-scroll__content') : null;
+  const review = section ? section.querySelector('.dolphin-scroll__review') : null;
   if (!video || !section) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -71,16 +72,29 @@
         target = self.progress * (video.duration || 0);
         requestRender();
 
-        // Once the bird is established and gliding, bring the "Kind Words"
-        // heading in over the footage — no scrim behind it, just the text
-        // itself — and hold it there through the end of the clip, so the
-        // pinned section releases straight into the testimonials below.
+        // Right as the clip opens (still mostly dolphin-shaped), the "Kind
+        // Words" heading fades in over the footage — no scrim, just the
+        // text — then fades back out as the bird fully forms. A real
+        // testimonial then fades in over the close wingspan shot and holds
+        // through the end of the clip, so the pin releases straight into
+        // the testimonials grid below.
         if (content) {
-          const FADE_IN_FROM = 0.4;
-          const FADE_IN_TO = 0.6;
+          const IN_FROM = 0;
+          const IN_TO = 0.06;
+          const OUT_FROM = 0.1;
+          const OUT_TO = 0.16;
+          const fadeIn = Math.min(Math.max((self.progress - IN_FROM) / (IN_TO - IN_FROM), 0), 1);
+          const fadeOut = Math.min(Math.max((self.progress - OUT_FROM) / (OUT_TO - OUT_FROM), 0), 1);
+          const opacity = fadeIn * (1 - fadeOut);
+          content.style.opacity = opacity;
+          content.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
+        }
+        if (review) {
+          const FADE_IN_FROM = 0.16;
+          const FADE_IN_TO = 0.24;
           const fade = Math.min(Math.max((self.progress - FADE_IN_FROM) / (FADE_IN_TO - FADE_IN_FROM), 0), 1);
-          content.style.opacity = fade;
-          content.style.pointerEvents = fade > 0.5 ? 'auto' : 'none';
+          review.style.opacity = fade;
+          review.style.pointerEvents = fade > 0.5 ? 'auto' : 'none';
         }
       },
     });
