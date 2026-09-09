@@ -823,13 +823,7 @@ section { padding-block: var(--space-16); }
   overflow: hidden;
   box-shadow: 0 40px 80px -40px rgba(46, 43, 40, 0.28);
   animation: aboutVisualFloat 6s ease-in-out infinite;
-}
-/* [data-reveal]'s own transition shorthand (below) ties with this on
-   specificity and would otherwise wipe out the scale/box-shadow
-   transition depending on source order — this selector outweighs it. */
-.about__visual[data-reveal] {
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out),
-    scale 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+  transition: scale 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
 }
 .about__visual:hover {
   scale: 1.02;
@@ -996,9 +990,8 @@ section { padding-block: var(--space-16); }
 
 .dolphin-scroll {
   position: relative;
-  height: 85vh;
+  height: 100svh;
   min-height: 480px;
-  max-height: 900px;
   overflow: hidden;
 }
 .dolphin-scroll__media {
