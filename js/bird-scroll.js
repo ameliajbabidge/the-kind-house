@@ -3,6 +3,7 @@
 
   const video = document.getElementById('bird-video');
   const section = video ? video.closest('.dolphin-scroll') : null;
+  const content = section ? section.querySelector('.dolphin-scroll__content') : null;
   if (!video || !section) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -69,6 +70,18 @@
       onUpdate(self) {
         target = self.progress * (video.duration || 0);
         requestRender();
+
+        // Once the bird is established and gliding, bring the "Kind Words"
+        // heading in over the footage — no scrim behind it, just the text
+        // itself — and hold it there through the end of the clip, so the
+        // pinned section releases straight into the testimonials below.
+        if (content) {
+          const FADE_IN_FROM = 0.4;
+          const FADE_IN_TO = 0.6;
+          const fade = Math.min(Math.max((self.progress - FADE_IN_FROM) / (FADE_IN_TO - FADE_IN_FROM), 0), 1);
+          content.style.opacity = fade;
+          content.style.pointerEvents = fade > 0.5 ? 'auto' : 'none';
+        }
       },
     });
 

@@ -978,6 +978,36 @@ section { padding-block: var(--space-16); }
 .dolphin-scroll__video::-webkit-media-controls {
   display: none !important;
 }
+.dolphin-scroll__content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: clamp(1.5rem, 4vw, 3.5rem);
+  opacity: 0;
+  pointer-events: none;
+}
+.dolphin-scroll__heading {
+  font-family: var(--font-raw-serif);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+  color: var(--color-on-dark);
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4), 0 12px 32px rgba(20, 16, 12, 0.3);
+}
+.dolphin-scroll__subheading {
+  margin-top: var(--space-4);
+  font-family: var(--font-raw-serif);
+  font-style: italic;
+  font-size: var(--step-md);
+  color: var(--color-on-dark);
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4);
+}
 
 /* ==========================================================================
    Selected Work
