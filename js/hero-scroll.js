@@ -98,16 +98,17 @@
 
         // "Home isn't a place." appears the moment the cave opens onto the
         // lake, holds through that view, then clears away before the dive.
-        // "It's a feeling." fades in right after the splash-down, and holds
-        // through the end of the clip, so the pin only releases once it's
-        // fully settled.
+        // "It's a feeling." only fades in once the footage has fully cut
+        // underwater (the splash and surface shots stay clear of it), and
+        // holds through the end of the clip, so the pin only releases once
+        // it's fully settled.
         if (introLine1 && introLine2) {
           const L1_IN_FROM = 0.445;
           const L1_IN_TO = 0.499;
           const L1_OUT_FROM = 0.652;
           const L1_OUT_TO = 0.691;
-          const L2_IN_FROM = 0.798;
-          const L2_IN_TO = 0.851;
+          const L2_IN_FROM = 0.868;
+          const L2_IN_TO = 0.898;
 
           const l1In = Math.min(Math.max((self.progress - L1_IN_FROM) / (L1_IN_TO - L1_IN_FROM), 0), 1);
           const l1Out = Math.min(Math.max((self.progress - L1_OUT_FROM) / (L1_OUT_TO - L1_OUT_FROM), 0), 1);
