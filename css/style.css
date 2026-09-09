@@ -229,7 +229,7 @@ h1 em, .section-head h2 em {
   gap: 0.6rem;
   padding: 0.95rem 1.8rem;
   border-radius: 2px;
-  font-family: var(--font-raw-serif);
+  font-family: var(--font-sans);
   font-size: var(--step-xs);
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -247,7 +247,6 @@ h1 em, .section-head h2 em {
 .btn-primary {
   background: var(--color-butter);
   color: var(--color-charcoal);
-  font-family: var(--font-raw-serif);
 }
 .btn-primary:hover { background: var(--color-honey); }
 
