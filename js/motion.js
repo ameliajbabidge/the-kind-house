@@ -87,22 +87,31 @@
     });
   }
 
-  // ---------- How I Work: timeline line draws in as you scroll past it ----------
+  // ---------- How I Work: curvy line draws itself in, with a dot travelling along it ----------
   const processLine = document.querySelector('.process__line-fill');
-  if (processLine) {
-    gsap.fromTo(
-      processLine,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.process',
-          start: 'top 75%',
-          end: 'bottom 65%',
-          scrub: true,
-        },
-      }
-    );
+  const processDot = document.querySelector('.process__line-dot');
+  if (processLine && typeof processLine.getTotalLength === 'function') {
+    const length = processLine.getTotalLength();
+    gsap.set(processLine, { strokeDasharray: length, strokeDashoffset: length });
+
+    const state = { drawn: 0 };
+    gsap.to(state, {
+      drawn: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.process',
+        start: 'top 75%',
+        end: 'bottom 65%',
+        scrub: true,
+      },
+      onUpdate() {
+        processLine.style.strokeDashoffset = String(length * (1 - state.drawn));
+        if (processDot) {
+          const point = processLine.getPointAtLength(length * state.drawn);
+          processDot.setAttribute('cx', point.x);
+          processDot.setAttribute('cy', point.y);
+        }
+      },
+    });
   }
 })();
