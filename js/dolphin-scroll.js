@@ -71,21 +71,22 @@
         target = self.progress * (video.duration || 0);
         requestRender();
 
-        // The About photo and text rise up while the dolphin is still
-        // underwater, early in the clip, then clear away again before it
-        // breaks the surface — so the jump itself, once it's above the
-        // water, plays out clean with nothing on top of it.
+        // The About photo and text rise up from below the frame while the
+        // dolphin is still underwater, early in the clip, then sink back
+        // down out of view before it breaks the surface — so the jump
+        // itself, once it's above the water, plays out clean with nothing
+        // on top of it. It's always fully opaque; visibility comes entirely
+        // from the rise, never a fade.
         if (aboutOverlay) {
-          const FADE_IN_FROM = 0.08;
-          const FADE_IN_TO = 0.2;
-          const FADE_OUT_FROM = 0.5;
-          const FADE_OUT_TO = 0.65;
-          const fadeIn = Math.min(Math.max((self.progress - FADE_IN_FROM) / (FADE_IN_TO - FADE_IN_FROM), 0), 1);
-          const fadeOut = Math.min(Math.max((self.progress - FADE_OUT_FROM) / (FADE_OUT_TO - FADE_OUT_FROM), 0), 1);
-          const fade = fadeIn * (1 - fadeOut);
-          aboutOverlay.style.opacity = fade;
-          aboutOverlay.style.transform = `translateY(${(1 - fade) * 40}px)`;
-          aboutOverlay.style.pointerEvents = fade > 0.5 ? 'auto' : 'none';
+          const RISE_FROM = 0.08;
+          const RISE_TO = 0.2;
+          const SINK_FROM = 0.5;
+          const SINK_TO = 0.65;
+          const riseIn = Math.min(Math.max((self.progress - RISE_FROM) / (RISE_TO - RISE_FROM), 0), 1);
+          const sinkOut = Math.min(Math.max((self.progress - SINK_FROM) / (SINK_TO - SINK_FROM), 0), 1);
+          const visible = riseIn * (1 - sinkOut);
+          aboutOverlay.style.transform = `translateY(${(1 - visible) * 100}%)`;
+          aboutOverlay.style.pointerEvents = visible > 0.5 ? 'auto' : 'none';
         }
       },
     });

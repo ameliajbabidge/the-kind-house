@@ -1079,15 +1079,10 @@ section { padding-block: var(--space-16); }
   align-items: center;
   justify-content: center;
   padding: clamp(1.25rem, 4vw, 3rem);
-  opacity: 0;
   pointer-events: none;
+  will-change: transform;
 }
 .dolphin-scroll__about-card {
-  background: rgba(245, 245, 245, 0.95);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-radius: 1.5rem;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
   width: 100%;
   max-width: 56rem;
   max-height: 100%;
@@ -1096,11 +1091,15 @@ section { padding-block: var(--space-16); }
   grid-template-columns: 0.85fr 1.15fr;
   gap: clamp(1.5rem, 3vw, 2.5rem);
   align-items: center;
-  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.45);
 }
 .dolphin-scroll__about-card .about__visual {
   aspect-ratio: 4 / 5;
   max-height: 20rem;
+}
+.dolphin-scroll__about-card .about__title,
+.dolphin-scroll__about-card .about__body {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.45), 0 12px 32px rgba(20, 16, 12, 0.3);
 }
 .dolphin-scroll__about-card .about__body {
   font-size: var(--step-sm);
