@@ -61,7 +61,7 @@
     ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: '+=290%',
+      end: '+=260%',
       pin: true,
       pinSpacing: true,
       scrub: true,
