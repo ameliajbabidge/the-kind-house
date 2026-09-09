@@ -71,6 +71,13 @@
         requestRender();
       },
     });
+
+    // The hero's ScrollTrigger sets up independently and can finish after
+    // this one (its video is much larger and can take longer to reach
+    // loadedmetadata). Refresh so every trigger's start/end accounts for
+    // both pinned sections' final heights — otherwise this section can end
+    // up pinning too early, mid-way through the hero's own pin.
+    ScrollTrigger.refresh();
   }
 
   if (video.readyState >= 1 && video.duration) {

@@ -45,6 +45,12 @@
   if (prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
+  // Late-loading fonts/images can shift section heights after the hero and
+  // dolphin videos have already set up their pinned ScrollTriggers. One
+  // final refresh once the whole page has loaded keeps every trigger's
+  // start/end in sync with the real, final layout.
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+
   // ---------- Image parallax ----------
   // Each image is scaled up slightly so its container (which clips overflow)
   // can mask a small vertical drift as the page scrolls past it.

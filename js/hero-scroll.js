@@ -93,6 +93,14 @@
         }
       },
     });
+
+    // Other pinned sections further down the page (e.g. the dolphin
+    // interlude) set up their own ScrollTrigger independently, sometimes
+    // before this one exists yet (its video can finish loading first).
+    // Refresh once this pin exists so every trigger's start/end accounts
+    // for this section's pin-spacer height — otherwise a later section can
+    // end up pinning too early and overlapping this one mid-scroll.
+    ScrollTrigger.refresh();
   }
 
   if (video.readyState >= 1 && video.duration) {
