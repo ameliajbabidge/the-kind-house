@@ -60,50 +60,19 @@
   if (prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // ---------- Intro: text rises into place as you scroll ----------
-  // Tied directly to scroll position (scrub) rather than a one-off
-  // triggered fade, so each line visibly moves up as you scroll down,
-  // right as the hero video's pin releases into this section. Its trigger
-  // position depends on the hero's pin-spacer already being at full
-  // height, so — like the videos below — it's set up only once the hero
-  // (and any other scroll-video) pins already exist, not immediately.
-  function setupIntroRise() {
-    document.querySelectorAll('.intro__statement-line, .intro__support p').forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 92%',
-            end: 'top 55%',
-            scrub: true,
-          },
-        }
-      );
-    });
-  }
-
   // Every scroll-scrubbed video section (hero, dolphin, bird, ...) registers
   // itself in window.__ktScrollVideos instead of setting up independently —
   // see hero-scroll.js for why. Create all of their pins together, in page
-  // order, once every one of their videos is ready, then anything below
-  // them on the page (like the intro rise above) that depends on their
-  // final pinned height. The About photo/text now live inside the dolphin
-  // video's own overlay (see dolphin-scroll.js) instead of a separate
-  // scroll-triggered reveal here.
+  // order, once every one of their videos is ready. The intro statement
+  // and the About photo/text now live inside the hero's and dolphin
+  // video's own overlays (see hero-scroll.js / dolphin-scroll.js) instead
+  // of separate scroll-triggered reveals here.
   const scrollVideos = window.__ktScrollVideos || [];
   if (scrollVideos.length) {
     Promise.all(scrollVideos.map((v) => v.ready)).then(() => {
       scrollVideos.forEach((v) => v.setup());
-      setupIntroRise();
       ScrollTrigger.refresh();
     });
-  } else {
-    setupIntroRise();
   }
 
   // Late-loading fonts/images can still shift section heights after that.

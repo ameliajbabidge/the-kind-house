@@ -5,6 +5,7 @@
   const heroSection = document.querySelector('.hero--photo');
   const heroContent = document.querySelector('.hero__content');
   const scrollCue = document.querySelector('.scroll-cue');
+  const introOverlay = document.querySelector('.hero__intro-overlay');
   if (!video || !heroSection) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -90,6 +91,19 @@
         }
         if (scrollCue) {
           scrollCue.style.opacity = opacity;
+        }
+
+        // As the video is finishing, "Home isn't a place..." rises up on
+        // top of the still-playing footage and holds there — the pin only
+        // releases into normal scrolling once that's fully in view, so the
+        // video is always what's visible behind it, never a blank cut.
+        if (introOverlay) {
+          const INTRO_FROM = 0.72;
+          const INTRO_TO = 0.92;
+          const introFade = Math.min(Math.max((self.progress - INTRO_FROM) / (INTRO_TO - INTRO_FROM), 0), 1);
+          introOverlay.style.opacity = introFade;
+          introOverlay.style.transform = `translateY(${(1 - introFade) * 40}px)`;
+          introOverlay.style.pointerEvents = introFade > 0.5 ? 'auto' : 'none';
         }
       },
     });

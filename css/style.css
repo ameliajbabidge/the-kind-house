@@ -572,6 +572,33 @@ body.has-hero-photo .scroll-cue {
   text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4);
 }
 
+.hero__intro-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: clamp(1.5rem, 4vw, 3.5rem);
+  opacity: 0;
+  pointer-events: none;
+}
+.hero__intro-overlay .intro__statement {
+  color: var(--color-on-dark);
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4), 0 12px 32px rgba(20, 16, 12, 0.3);
+}
+.hero__intro-overlay .intro__support p {
+  color: var(--color-on-dark);
+  opacity: 0.9;
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.35);
+}
+.hero__intro-overlay .intro__statement,
+.hero__intro-overlay .intro__support {
+  max-width: 34rem;
+}
+
 /* ==========================================================================
    Section rhythm
    ========================================================================== */
@@ -718,14 +745,6 @@ section { padding-block: var(--space-16); }
    Brand Introduction
    ========================================================================== */
 
-.intro {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding-block: var(--space-16);
-}
-
-.intro__inner { position: relative; z-index: 1; max-width: 34rem; margin-inline: auto; }
 .intro__statement {
   display: flex;
   flex-direction: column;
