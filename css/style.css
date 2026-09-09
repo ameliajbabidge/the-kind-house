@@ -54,6 +54,7 @@
 
   /* Wine — a single premium accent, used sparingly alongside the honey/gold system. */
   --color-wine: #6b2737;
+  --color-wine-deep: #4f1c28;
   --color-wine-soft: rgba(107, 39, 55, 0.16);
 
   /* Type — Fraunces carries the bold, hand-set display moments; Baloo 2 is the rounded, chunky wordmark face; Cormorant stays for small italic warmth; Work Sans for body and labels. */
@@ -488,11 +489,6 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   inset: 0;
   background: linear-gradient(160deg, var(--color-stone), var(--color-charcoal) 130%);
 }
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(28, 26, 24, 0.25), rgba(28, 26, 24, 0.5) 65%, rgba(28, 26, 24, 0.68));
-}
 
 .hero__content {
   position: relative;
@@ -513,6 +509,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   max-width: 22ch;
   margin-top: var(--space-12);
   color: var(--color-on-dark);
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.35), 0 12px 32px rgba(20, 16, 12, 0.3);
 }
 .hero__title em { font-style: italic; color: var(--color-honey); white-space: nowrap; }
 @media (min-width: 420px) {
@@ -526,6 +523,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   opacity: 0.85;
   max-width: 34ch;
   font-weight: 300;
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.35), 0 8px 24px rgba(20, 16, 12, 0.28);
 }
 
 .hero__actions {
@@ -550,6 +548,10 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   transition: opacity 0.15s linear;
 }
 .scroll-cue__line { width: 32px; height: 1px; background: currentColor; }
+body.has-hero-photo .scroll-cue {
+  color: var(--color-on-dark);
+  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4);
+}
 
 /* ==========================================================================
    Section rhythm
@@ -912,9 +914,35 @@ p.kind-words__subtitle {
 }
 .contact__email:hover { color: var(--color-honey); border-color: var(--color-honey); }
 
-.form { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 1.5rem; padding: clamp(1.75rem, 3vw, 2.75rem); }
+.form {
+  background: var(--color-card);
+  border: 1px solid var(--color-wine-soft);
+  border-radius: 1.5rem;
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  box-shadow: 0 40px 90px -48px rgba(46, 43, 40, 0.4);
+}
+.form__intro {
+  font-family: var(--font-raw-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--step-md);
+  color: var(--color-wine);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-wine-soft);
+}
 .field { margin-bottom: var(--space-5); }
-.field label { display: block; font-family: var(--font-sans); font-size: var(--step-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-charcoal-faint); margin-bottom: 0.5rem; }
+.field label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--step-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-charcoal-faint);
+  margin-bottom: 0.5rem;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.field:focus-within label { color: var(--color-wine); }
 .field input, .field textarea, .field select {
   width: 100%;
   border: 1px solid var(--color-border);
@@ -924,12 +952,22 @@ p.kind-words__subtitle {
   font-family: var(--font-sans);
   font-size: var(--step-sm);
   color: var(--color-charcoal);
-  transition: border-color var(--dur-base) var(--ease-out);
+  transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
 }
-.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--color-honey); outline: none; }
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--color-wine);
+  box-shadow: 0 0 0 3px var(--color-wine-soft);
+  outline: none;
+}
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
-.form__submit { width: 100%; justify-content: center; }
-.form__status { margin-top: var(--space-4); text-align: center; font-size: var(--step-sm); color: var(--color-honey); min-height: 1.2em; }
+.form__submit {
+  width: 100%;
+  justify-content: center;
+  background: var(--color-wine);
+  color: var(--color-on-dark);
+}
+.form__submit:hover { background: var(--color-wine-deep); }
+.form__status { margin-top: var(--space-4); text-align: center; font-size: var(--step-sm); color: var(--color-wine); min-height: 1.2em; }
 
 @media (max-width: 900px) {
   .contact__grid { grid-template-columns: 1fr; }
