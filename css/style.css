@@ -52,6 +52,10 @@
   --color-card: #f5f5f5;
   --color-on-dark: #fce9b5;
 
+  /* Wine — a single premium accent, used sparingly alongside the honey/gold system. */
+  --color-wine: #6b2737;
+  --color-wine-soft: rgba(107, 39, 55, 0.16);
+
   /* Type — Fraunces carries the bold, hand-set display moments; Baloo 2 is the rounded, chunky wordmark face; Cormorant stays for small italic warmth; Work Sans for body and labels. */
   --font-serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
   --font-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -632,7 +636,7 @@ section { padding-block: var(--space-16); }
   font-weight: 700;
   font-size: var(--step-md);
   line-height: 1.45;
-  color: var(--color-charcoal);
+  color: var(--color-wine);
 }
 
 /* ==========================================================================
@@ -778,13 +782,25 @@ section { padding-block: var(--space-16); }
   flex-direction: column;
 }
 .testimonial blockquote {
+  position: relative;
   font-family: var(--font-sans);
   font-style: italic;
   font-size: var(--step-md);
   line-height: 1.6;
   flex: 1;
 }
-.testimonial figcaption { margin-top: var(--space-6); padding-top: var(--space-4); border-top: var(--border-hairline); }
+.testimonial blockquote::before {
+  content: '\201C';
+  display: block;
+  font-family: var(--font-raw-serif);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--color-wine);
+  margin-bottom: var(--space-2);
+}
+.testimonial figcaption { margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-wine-soft); }
 .testimonial figcaption .name { font-weight: 500; font-size: var(--step-sm); }
 .testimonial figcaption .role { color: var(--color-charcoal-faint); font-size: var(--step-xs); }
 
@@ -856,10 +872,11 @@ section { padding-block: var(--space-16); }
   letter-spacing: 0.01em;
 }
 #contact h2 { font-size: var(--step-2xl); }
-.kind-words__subtitle {
-  font-family: var(--font-sans);
+p.kind-words__subtitle {
+  font-family: var(--font-raw-serif);
+  font-style: italic;
   font-size: var(--step-md);
-  color: var(--color-charcoal-soft);
+  color: var(--color-wine);
 }
 .contact__lead {
   margin-top: var(--space-5);
@@ -923,7 +940,7 @@ section { padding-block: var(--space-16); }
    Footer
    ========================================================================== */
 
-.site-footer { background: var(--color-bg-alt); color: var(--color-charcoal); padding-top: var(--space-16); padding-bottom: var(--space-8); }
+.site-footer { background: var(--color-bg-alt); color: var(--color-charcoal); padding-top: var(--space-16); padding-bottom: var(--space-8); border-top: 1px solid var(--color-wine-soft); }
 .site-footer .brand { color: var(--color-charcoal); justify-content: center; }
 
 .footer__bottom-only {
