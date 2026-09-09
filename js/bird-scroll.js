@@ -72,20 +72,17 @@
         target = self.progress * (video.duration || 0);
         requestRender();
 
-        // Right as the clip opens (still mostly dolphin-shaped), the "Kind
-        // Words" heading fades in over the footage — no scrim, just the
-        // text — then fades back out as the bird fully forms. A real
-        // testimonial then fades in over the close wingspan shot and holds
-        // through the end of the clip, so the pin releases straight into
-        // the testimonials grid below.
+        // The "Kind Words" heading is already showing — no scrim, just the
+        // text — the moment this section starts, right over the opening
+        // dolphin-shaped frame, then fades back out as the bird fully
+        // forms. A real testimonial then fades in over the close wingspan
+        // shot and holds through the end of the clip, so the pin releases
+        // straight into the testimonials grid below.
         if (content) {
-          const IN_FROM = 0;
-          const IN_TO = 0.06;
           const OUT_FROM = 0.1;
           const OUT_TO = 0.16;
-          const fadeIn = Math.min(Math.max((self.progress - IN_FROM) / (IN_TO - IN_FROM), 0), 1);
           const fadeOut = Math.min(Math.max((self.progress - OUT_FROM) / (OUT_TO - OUT_FROM), 0), 1);
-          const opacity = fadeIn * (1 - fadeOut);
+          const opacity = 1 - fadeOut;
           content.style.opacity = opacity;
           content.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
         }
