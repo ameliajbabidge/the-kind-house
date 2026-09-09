@@ -607,6 +607,15 @@ section { padding-block: var(--space-16); }
   justify-content: center;
   margin: var(--space-6) clamp(1rem, 3vw, 2rem);
 }
+/* [data-reveal]'s own transition shorthand (below) ties with this on
+   specificity and would otherwise wipe out the scale transition
+   depending on source order — this selector outweighs it. */
+.about-intro-row__media[data-reveal] {
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out), scale 0.6s var(--ease-out);
+}
+.about-intro-row__media:hover {
+  scale: 1.03;
+}
 .about-intro-row__media img {
   width: 100%;
   height: 100%;
@@ -758,13 +767,24 @@ section { padding-block: var(--space-16); }
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 }
+@keyframes aboutVisualFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -14px; }
+}
 .about__visual {
   aspect-ratio: 3 / 4;
   border-radius: 1.5rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 40px 80px -40px rgba(46, 43, 40, 0.28);
-  transition: scale 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+  animation: aboutVisualFloat 6s ease-in-out infinite;
+}
+/* [data-reveal]'s own transition shorthand (below) ties with this on
+   specificity and would otherwise wipe out the scale/box-shadow
+   transition depending on source order — this selector outweighs it. */
+.about__visual[data-reveal] {
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out),
+    scale 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
 }
 .about__visual:hover {
   scale: 1.02;
