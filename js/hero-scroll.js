@@ -6,6 +6,9 @@
   const heroContent = document.querySelector('.hero__content');
   const scrollCue = document.querySelector('.scroll-cue');
   const introOverlay = document.querySelector('.hero__intro-overlay');
+  const introLines = document.querySelectorAll('.hero__intro-overlay .intro__statement-line');
+  const introLine1 = introLines[0];
+  const introLine2 = introLines[1];
   if (!video || !heroSection) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -93,17 +96,29 @@
           scrollCue.style.opacity = opacity;
         }
 
-        // As the video is finishing, "Home isn't a place..." rises up on
-        // top of the still-playing footage and holds there — the pin only
-        // releases into normal scrolling once that's fully in view, so the
-        // video is always what's visible behind it, never a blank cut.
-        if (introOverlay) {
-          const INTRO_FROM = 0.72;
-          const INTRO_TO = 0.92;
-          const introFade = Math.min(Math.max((self.progress - INTRO_FROM) / (INTRO_TO - INTRO_FROM), 0), 1);
-          introOverlay.style.opacity = introFade;
-          introOverlay.style.transform = `translateY(${(1 - introFade) * 40}px)`;
-          introOverlay.style.pointerEvents = introFade > 0.5 ? 'auto' : 'none';
+        // As the video is finishing, "Home isn't a place." appears on top
+        // of the still-playing footage, then clears away as "It's a
+        // feeling." takes its place — one at a time, in the same spot,
+        // never both together. The second line holds through the end of
+        // the clip, so the pin only releases once it's fully settled.
+        if (introLine1 && introLine2) {
+          const L1_IN_FROM = 0.72;
+          const L1_IN_TO = 0.8;
+          const L1_OUT_FROM = 0.83;
+          const L1_OUT_TO = 0.87;
+          const L2_IN_FROM = 0.87;
+          const L2_IN_TO = 0.93;
+
+          const l1In = Math.min(Math.max((self.progress - L1_IN_FROM) / (L1_IN_TO - L1_IN_FROM), 0), 1);
+          const l1Out = Math.min(Math.max((self.progress - L1_OUT_FROM) / (L1_OUT_TO - L1_OUT_FROM), 0), 1);
+          const l1 = l1In * (1 - l1Out);
+          const l2 = Math.min(Math.max((self.progress - L2_IN_FROM) / (L2_IN_TO - L2_IN_FROM), 0), 1);
+
+          introLine1.style.opacity = l1;
+          introLine2.style.opacity = l2;
+          if (introOverlay) {
+            introOverlay.style.pointerEvents = Math.max(l1, l2) > 0.5 ? 'auto' : 'none';
+          }
         }
       },
     });
