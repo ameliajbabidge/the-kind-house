@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const video = document.getElementById('dolphin-video');
+  const video = document.getElementById('bird-video');
   const section = video ? video.closest('.dolphin-scroll') : null;
   if (!video || !section) return;
 
@@ -61,7 +61,7 @@
     ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: '+=250%',
+      end: '+=290%',
       pin: true,
       pinSpacing: true,
       scrub: true,
@@ -72,11 +72,10 @@
       },
     });
 
-    // The hero's ScrollTrigger sets up independently and can finish after
-    // this one (its video is much larger and can take longer to reach
-    // loadedmetadata). Refresh so every trigger's start/end accounts for
-    // both pinned sections' final heights — otherwise this section can end
-    // up pinning too early, mid-way through the hero's own pin.
+    // The hero and dolphin sections each set up their own ScrollTrigger
+    // independently, and whichever video's metadata loads last can leave
+    // an earlier trigger's start/end stale. Refresh here too so all three
+    // pinned sections stay correctly sequenced regardless of load order.
     ScrollTrigger.refresh();
   }
 
