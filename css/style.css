@@ -258,6 +258,26 @@ h1 em, .section-head h2 em {
 .btn-ghost:hover { border-color: var(--color-honey); color: var(--color-honey); }
 
 /* ==========================================================================
+   Scroll progress
+   ========================================================================== */
+
+.scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  z-index: 150;
+  pointer-events: none;
+}
+.scroll-progress__bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-wine), var(--color-honey));
+  transform-origin: left;
+}
+
+/* ==========================================================================
    Header
    ========================================================================== */
 
@@ -691,7 +711,8 @@ section { padding-block: var(--space-16); }
   .services__head h2 { white-space: nowrap; }
 }
 
-.service-card__sun { display: block; width: 32px; height: auto; margin-inline: auto; }
+.service-card__sun { display: block; width: 32px; height: auto; margin-inline: auto; transition: transform 0.6s var(--ease-out); }
+.service-card:hover .service-card__sun { transform: rotate(35deg); }
 .service-card h3 { margin-top: var(--space-4); font-size: var(--step-lg); font-family: var(--font-raw-serif); font-weight: 700; text-align: center; }
 .service-card p { margin-top: var(--space-3); color: var(--color-charcoal-soft); font-size: var(--step-sm); line-height: 1.7; text-align: center; }
 
@@ -781,7 +802,9 @@ section { padding-block: var(--space-16); }
 .testimonial {
   display: flex;
   flex-direction: column;
+  transition: transform var(--dur-base) var(--ease-out);
 }
+.testimonial:hover { transform: translateY(-6px); }
 .testimonial blockquote {
   position: relative;
   font-family: var(--font-sans);
@@ -851,10 +874,22 @@ section { padding-block: var(--space-16); }
   overflow: hidden;
 }
 .work-card__media span { font-family: var(--font-serif); font-style: italic; color: rgba(46,43,40,0.35); }
-.work-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-.work-card__media:hover img { transform: scale(1.04); }
-.work-card { display: flex; flex-direction: column; height: 100%; }
-.work-card h3 { margin-top: var(--space-5); font-size: var(--step-lg); font-family: var(--font-raw-serif); font-weight: 700; }
+.work-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.work-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.work-card:hover { transform: translateY(-6px); }
+.work-card h3 {
+  margin-top: var(--space-5);
+  font-size: var(--step-lg);
+  font-family: var(--font-raw-serif);
+  font-weight: 700;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.work-card:hover h3 { color: var(--color-wine); }
 .work-card p { margin-top: var(--space-2); color: var(--color-charcoal-soft); font-size: var(--step-sm); line-height: 1.6; }
 .work-card .btn { margin-top: auto; align-self: flex-start; }
 
