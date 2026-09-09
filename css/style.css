@@ -472,6 +472,13 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   object-fit: cover;
   object-position: center 35%;
 }
+.hero__media-video {
+  object-position: center center;
+  background: var(--color-charcoal);
+}
+.hero__media-video::-webkit-media-controls {
+  display: none !important;
+}
 .hero__media-placeholder {
   position: absolute;
   inset: 0;

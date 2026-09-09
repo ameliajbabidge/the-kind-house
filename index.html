@@ -61,7 +61,17 @@
     <!-- ============ HERO ============ -->
     <section class="hero hero--photo" id="top">
       <div class="hero__media" aria-hidden="true">
-        <img src="assets/img/water%20reflection.jpg" class="hero__media-img" alt="">
+        <video
+          id="hero-video"
+          class="hero__media-img hero__media-video"
+          poster="assets/img/hero-video-poster.jpg"
+          muted
+          playsinline
+          preload="auto"
+          disableRemotePlayback
+          controlslist="nodownload noplaybackrate nofullscreen">
+          <source src="assets/video/hero-scroll.mp4" type="video/mp4">
+        </video>
         <div class="hero__scrim"></div>
       </div>
 
@@ -364,6 +374,9 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/hero-scroll.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
