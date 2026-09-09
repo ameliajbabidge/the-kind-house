@@ -33,7 +33,7 @@
   // before it, so rows cascade in rather than appearing all at once.
   const staggerGrids = document.querySelectorAll(
     '.services__grid, .testimonials__grid, .work__grid, .journal__grid, .journal-index__grid, ' +
-      '.intro__statement, .intro__support, .about__text, .process__steps'
+      '.about__text, .process__steps'
   );
   staggerGrids.forEach((grid) => {
     const items = grid.querySelectorAll(':scope > [data-reveal]');
@@ -60,16 +60,48 @@
   if (prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
+  // ---------- Intro: text rises into place as you scroll ----------
+  // Tied directly to scroll position (scrub) rather than a one-off
+  // triggered fade, so each line visibly moves up as you scroll down,
+  // right as the hero video's pin releases into this section. Its trigger
+  // position depends on the hero's pin-spacer already being at full
+  // height, so — like the videos below — it's set up only once the hero
+  // (and any other scroll-video) pins already exist, not immediately.
+  function setupIntroRise() {
+    document.querySelectorAll('.intro__statement-line, .intro__support p').forEach((el) => {
+      gsap.fromTo(
+        el,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 92%',
+            end: 'top 55%',
+            scrub: true,
+          },
+        }
+      );
+    });
+  }
+
   // Every scroll-scrubbed video section (hero, dolphin, bird, ...) registers
   // itself in window.__ktScrollVideos instead of setting up independently —
   // see hero-scroll.js for why. Create all of their pins together, in page
-  // order, once every one of their videos is ready.
+  // order, once every one of their videos is ready, then anything below
+  // them on the page (like the intro rise above) that depends on their
+  // final pinned height.
   const scrollVideos = window.__ktScrollVideos || [];
   if (scrollVideos.length) {
     Promise.all(scrollVideos.map((v) => v.ready)).then(() => {
       scrollVideos.forEach((v) => v.setup());
+      setupIntroRise();
       ScrollTrigger.refresh();
     });
+  } else {
+    setupIntroRise();
   }
 
   // Late-loading fonts/images can still shift section heights after that.
@@ -119,31 +151,4 @@
     });
   }
 
-  // ---------- How I Work: curvy line draws itself in, with a dot travelling along it ----------
-  const processLine = document.querySelector('.process__line-fill');
-  const processDot = document.querySelector('.process__line-dot');
-  if (processLine && typeof processLine.getTotalLength === 'function') {
-    const length = processLine.getTotalLength();
-    gsap.set(processLine, { strokeDasharray: length, strokeDashoffset: length });
-
-    const state = { drawn: 0 };
-    gsap.to(state, {
-      drawn: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.process',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
-      onUpdate() {
-        processLine.style.strokeDashoffset = String(length * (1 - state.drawn));
-        if (processDot) {
-          const point = processLine.getPointAtLength(length * state.drawn);
-          processDot.setAttribute('cx', point.x);
-          processDot.setAttribute('cy', point.y);
-        }
-      },
-    });
-  }
 })();
