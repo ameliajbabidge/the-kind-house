@@ -71,22 +71,18 @@
         target = self.progress * (video.duration || 0);
         requestRender();
 
-        // The About photo and text rise up from below the frame while the
-        // dolphin is still underwater, early in the clip, then sink back
-        // down out of view before it breaks the surface — so the jump
-        // itself, once it's above the water, plays out clean with nothing
-        // on top of it. It's always fully opaque; visibility comes entirely
-        // from the rise, never a fade.
+        // The About photo and text rise up from below the frame as the
+        // dolphin's video is finishing — the breach and jump play out
+        // underneath it while it climbs — and hold in place once fully up,
+        // so the pin only releases once it's settled and the video keeps
+        // running behind it. It's always fully opaque; visibility comes
+        // entirely from the rise, never a fade.
         if (aboutOverlay) {
-          const RISE_FROM = 0.08;
-          const RISE_TO = 0.2;
-          const SINK_FROM = 0.5;
-          const SINK_TO = 0.65;
+          const RISE_FROM = 0.78;
+          const RISE_TO = 0.94;
           const riseIn = Math.min(Math.max((self.progress - RISE_FROM) / (RISE_TO - RISE_FROM), 0), 1);
-          const sinkOut = Math.min(Math.max((self.progress - SINK_FROM) / (SINK_TO - SINK_FROM), 0), 1);
-          const visible = riseIn * (1 - sinkOut);
-          aboutOverlay.style.transform = `translateY(${(1 - visible) * 100}%)`;
-          aboutOverlay.style.pointerEvents = visible > 0.5 ? 'auto' : 'none';
+          aboutOverlay.style.transform = `translateY(${(1 - riseIn) * 100}%)`;
+          aboutOverlay.style.pointerEvents = riseIn > 0.5 ? 'auto' : 'none';
         }
       },
     });
