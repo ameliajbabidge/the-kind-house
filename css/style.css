@@ -858,6 +858,77 @@ section { padding-block: var(--space-16); }
 }
 
 /* ==========================================================================
+   How I Work
+   ========================================================================== */
+
+.process {
+  position: relative;
+  margin-top: var(--space-16);
+  max-width: 40rem;
+  margin-inline: auto;
+}
+.process__line {
+  position: absolute;
+  left: 23px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background: var(--color-border);
+}
+.process__line-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, var(--color-wine), var(--color-honey));
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.process__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+.process__step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.process__marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-wine);
+  position: relative;
+  z-index: 1;
+}
+.process__body h3 {
+  font-family: var(--font-raw-serif);
+  font-weight: 700;
+  font-size: var(--step-lg);
+}
+.process__body p {
+  margin-top: var(--space-2);
+  color: var(--color-charcoal-soft);
+  font-size: var(--step-sm);
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .process__line { left: 19px; }
+  .process__step { grid-template-columns: 40px 1fr; gap: var(--space-4); }
+  .process__marker { width: 40px; height: 40px; font-size: 0.85rem; }
+}
+
+/* ==========================================================================
    Selected Work
    ========================================================================== */
 

@@ -32,7 +32,8 @@
   // Gives each card in a grid a slightly later transition-delay than the one
   // before it, so rows cascade in rather than appearing all at once.
   const staggerGrids = document.querySelectorAll(
-    '.services__grid, .testimonials__grid, .work__grid, .journal__grid, .journal-index__grid'
+    '.services__grid, .testimonials__grid, .work__grid, .journal__grid, .journal-index__grid, ' +
+      '.intro__statement, .intro__support, .about__text, .process__steps'
   );
   staggerGrids.forEach((grid) => {
     const items = grid.querySelectorAll(':scope > [data-reveal]');
@@ -84,5 +85,24 @@
         scrub: true,
       },
     });
+  }
+
+  // ---------- How I Work: timeline line draws in as you scroll past it ----------
+  const processLine = document.querySelector('.process__line-fill');
+  if (processLine) {
+    gsap.fromTo(
+      processLine,
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.process',
+          start: 'top 75%',
+          end: 'bottom 65%',
+          scrub: true,
+        },
+      }
+    );
   }
 })();
