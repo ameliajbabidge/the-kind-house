@@ -930,6 +930,15 @@ section { padding-block: var(--space-16); }
   font-weight: 700;
   font-size: var(--step-lg);
 }
+.process__body h3 .letter {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-out), color 0.35s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 25ms);
+}
+.process__step:hover .process__body h3 .letter {
+  transform: translateY(-6px);
+  color: var(--color-wine);
+}
 .process__body p {
   margin-top: var(--space-2);
   color: var(--color-charcoal-soft);

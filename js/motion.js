@@ -42,6 +42,21 @@
     });
   });
 
+  // ---------- Letter-by-letter hover wave on the How I Work step titles ----------
+  document.querySelectorAll('.process__body h3').forEach((h3) => {
+    const text = h3.textContent;
+    h3.textContent = '';
+    h3.setAttribute('aria-label', text);
+    [...text].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      span.style.setProperty('--i', i);
+      span.setAttribute('aria-hidden', 'true');
+      h3.appendChild(span);
+    });
+  });
+
   if (prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
@@ -106,8 +121,8 @@
       ease: 'none',
       scrollTrigger: {
         trigger: '.process',
-        start: 'top 75%',
-        end: 'bottom 65%',
+        start: 'top bottom',
+        end: 'bottom top',
         scrub: true,
       },
       onUpdate() {
