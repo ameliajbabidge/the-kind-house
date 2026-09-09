@@ -72,18 +72,19 @@
       },
     });
 
-    // The hero and dolphin sections each set up their own ScrollTrigger
-    // independently, and whichever video's metadata loads last can leave
-    // an earlier trigger's start/end stale. Refresh here too so all three
-    // pinned sections stay correctly sequenced regardless of load order.
-    ScrollTrigger.refresh();
   }
 
-  if (video.readyState >= 1 && video.duration) {
-    setupScrollTrigger();
-  } else {
-    video.addEventListener('loadedmetadata', setupScrollTrigger, { once: true });
-  }
+  // See hero-scroll.js for why this registers instead of setting up
+  // immediately: pinned sections need to be created together, in page
+  // order, once every video on the page is ready.
+  window.__ktScrollVideos = window.__ktScrollVideos || [];
+  window.__ktScrollVideos.push({
+    ready:
+      video.readyState >= 1 && video.duration
+        ? Promise.resolve()
+        : new Promise((resolve) => video.addEventListener('loadedmetadata', resolve, { once: true })),
+    setup: setupScrollTrigger,
+  });
 
   function unlockDecoding() {
     const p = video.play();

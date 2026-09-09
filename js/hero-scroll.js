@@ -94,20 +94,23 @@
       },
     });
 
-    // Other pinned sections further down the page (e.g. the dolphin
-    // interlude) set up their own ScrollTrigger independently, sometimes
-    // before this one exists yet (its video can finish loading first).
-    // Refresh once this pin exists so every trigger's start/end accounts
-    // for this section's pin-spacer height — otherwise a later section can
-    // end up pinning too early and overlapping this one mid-scroll.
-    ScrollTrigger.refresh();
   }
 
-  if (video.readyState >= 1 && video.duration) {
-    setupScrollTrigger();
-  } else {
-    video.addEventListener('loadedmetadata', setupScrollTrigger, { once: true });
-  }
+  // All scroll-scrubbed video sections on the page register here instead of
+  // setting up the moment their own video is ready. Creating a pinned
+  // ScrollTrigger before an earlier pinned section's pin-spacer has reached
+  // its final height gives it a wrong start position that a later refresh()
+  // doesn't fully correct — especially when two pinned sections sit back to
+  // back with nothing in between. Waiting for every video to be ready, then
+  // creating all the pins together in page order, avoids that entirely.
+  window.__ktScrollVideos = window.__ktScrollVideos || [];
+  window.__ktScrollVideos.push({
+    ready:
+      video.readyState >= 1 && video.duration
+        ? Promise.resolve()
+        : new Promise((resolve) => video.addEventListener('loadedmetadata', resolve, { once: true })),
+    setup: setupScrollTrigger,
+  });
 
   // iOS/Safari require a user gesture before a video will decode frames via
   // currentTime scrubbing. A silent one-time play/pause on first touch or

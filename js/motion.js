@@ -60,10 +60,21 @@
   if (prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Late-loading fonts/images can shift section heights after the hero and
-  // dolphin videos have already set up their pinned ScrollTriggers. One
-  // final refresh once the whole page has loaded keeps every trigger's
-  // start/end in sync with the real, final layout.
+  // Every scroll-scrubbed video section (hero, dolphin, bird, ...) registers
+  // itself in window.__ktScrollVideos instead of setting up independently —
+  // see hero-scroll.js for why. Create all of their pins together, in page
+  // order, once every one of their videos is ready.
+  const scrollVideos = window.__ktScrollVideos || [];
+  if (scrollVideos.length) {
+    Promise.all(scrollVideos.map((v) => v.ready)).then(() => {
+      scrollVideos.forEach((v) => v.setup());
+      ScrollTrigger.refresh();
+    });
+  }
+
+  // Late-loading fonts/images can still shift section heights after that.
+  // One more refresh once the whole page has loaded keeps everything in
+  // sync with the real, final layout.
   window.addEventListener('load', () => ScrollTrigger.refresh());
 
   // ---------- Image parallax ----------

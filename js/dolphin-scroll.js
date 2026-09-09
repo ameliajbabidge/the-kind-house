@@ -72,19 +72,19 @@
       },
     });
 
-    // The hero's ScrollTrigger sets up independently and can finish after
-    // this one (its video is much larger and can take longer to reach
-    // loadedmetadata). Refresh so every trigger's start/end accounts for
-    // both pinned sections' final heights — otherwise this section can end
-    // up pinning too early, mid-way through the hero's own pin.
-    ScrollTrigger.refresh();
   }
 
-  if (video.readyState >= 1 && video.duration) {
-    setupScrollTrigger();
-  } else {
-    video.addEventListener('loadedmetadata', setupScrollTrigger, { once: true });
-  }
+  // See hero-scroll.js for why this registers instead of setting up
+  // immediately: pinned sections need to be created together, in page
+  // order, once every video on the page is ready.
+  window.__ktScrollVideos = window.__ktScrollVideos || [];
+  window.__ktScrollVideos.push({
+    ready:
+      video.readyState >= 1 && video.duration
+        ? Promise.resolve()
+        : new Promise((resolve) => video.addEventListener('loadedmetadata', resolve, { once: true })),
+    setup: setupScrollTrigger,
+  });
 
   function unlockDecoding() {
     const p = video.play();
