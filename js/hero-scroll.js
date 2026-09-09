@@ -96,18 +96,18 @@
           scrollCue.style.opacity = opacity;
         }
 
-        // As the video is finishing, "Home isn't a place." appears on top
-        // of the still-playing footage, then clears away as "It's a
-        // feeling." takes its place — one at a time, in the same spot,
-        // never both together. The second line holds through the end of
-        // the clip, so the pin only releases once it's fully settled.
+        // "Home isn't a place." appears the moment the cave opens onto the
+        // lake, holds through that view, then clears away before the dive.
+        // "It's a feeling." fades in right after the splash-down, and holds
+        // through the end of the clip, so the pin only releases once it's
+        // fully settled.
         if (introLine1 && introLine2) {
-          const L1_IN_FROM = 0.72;
-          const L1_IN_TO = 0.8;
-          const L1_OUT_FROM = 0.83;
-          const L1_OUT_TO = 0.87;
-          const L2_IN_FROM = 0.87;
-          const L2_IN_TO = 0.93;
+          const L1_IN_FROM = 0.445;
+          const L1_IN_TO = 0.499;
+          const L1_OUT_FROM = 0.652;
+          const L1_OUT_TO = 0.691;
+          const L2_IN_FROM = 0.798;
+          const L2_IN_TO = 0.851;
 
           const l1In = Math.min(Math.max((self.progress - L1_IN_FROM) / (L1_IN_TO - L1_IN_FROM), 0), 1);
           const l1Out = Math.min(Math.max((self.progress - L1_OUT_FROM) / (L1_OUT_TO - L1_OUT_FROM), 0), 1);
