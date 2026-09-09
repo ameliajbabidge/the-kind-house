@@ -25,7 +25,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <link rel="icon" href="assets/favicon.ico">
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body class="has-hero-photo">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -221,17 +221,19 @@
         </div>
 
         <div class="process">
-          <svg class="process__line" viewBox="0 0 48 1000" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="process-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="var(--color-wine)"></stop>
-                <stop offset="100%" stop-color="var(--color-honey)"></stop>
-              </linearGradient>
-            </defs>
-            <path class="process__line-track" d="M24,0 C42,55 42,115 24,170 C6,225 6,285 24,340 C42,395 42,455 24,510 C6,565 6,625 24,680 C42,735 42,795 24,850 C6,905 6,950 24,1000" />
-            <path class="process__line-fill" d="M24,0 C42,55 42,115 24,170 C6,225 6,285 24,340 C42,395 42,455 24,510 C6,565 6,625 24,680 C42,735 42,795 24,850 C6,905 6,950 24,1000" />
-            <circle class="process__line-dot" r="5.5" cx="24" cy="0"></circle>
-          </svg>
+          <div class="process__line" aria-hidden="true">
+            <svg class="process__line-svg" viewBox="0 0 48 1000" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="process-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--color-wine)"></stop>
+                  <stop offset="100%" stop-color="var(--color-honey)"></stop>
+                </linearGradient>
+              </defs>
+              <path class="process__line-track" d="M24,0 C42,55 42,115 24,170 C6,225 6,285 24,340 C42,395 42,455 24,510 C6,565 6,625 24,680 C42,735 42,795 24,850 C6,905 6,950 24,1000" />
+              <path class="process__line-fill" d="M24,0 C42,55 42,115 24,170 C6,225 6,285 24,340 C42,395 42,455 24,510 C6,565 6,625 24,680 C42,735 42,795 24,850 C6,905 6,950 24,1000" />
+              <circle class="process__line-dot" r="5.5" cx="24" cy="0"></circle>
+            </svg>
+          </div>
           <ol class="process__steps">
             <li class="process__step" data-reveal>
               <span class="process__marker">01</span>

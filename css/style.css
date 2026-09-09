@@ -873,6 +873,11 @@ section { padding-block: var(--space-16); }
   top: 24px;
   bottom: 24px;
   width: 48px;
+}
+.process__line-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 .process__line-track,
