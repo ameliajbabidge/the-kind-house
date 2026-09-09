@@ -939,6 +939,33 @@ section { padding-block: var(--space-16); }
 }
 
 /* ==========================================================================
+   Dolphin interlude
+   ========================================================================== */
+
+.dolphin-scroll {
+  position: relative;
+  height: 85vh;
+  min-height: 480px;
+  max-height: 900px;
+  overflow: hidden;
+}
+.dolphin-scroll__media {
+  position: absolute;
+  inset: 0;
+}
+.dolphin-scroll__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  background: var(--color-charcoal);
+}
+.dolphin-scroll__video::-webkit-media-controls {
+  display: none !important;
+}
+
+/* ==========================================================================
    Selected Work
    ========================================================================== */
 
