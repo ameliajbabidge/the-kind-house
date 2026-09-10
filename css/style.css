@@ -1095,6 +1095,10 @@ section { padding-block: var(--space-16); }
   padding: clamp(1.25rem, 4vw, 3rem);
   pointer-events: none;
   will-change: transform;
+  /* Hidden below the frame by default — JS overrides this on scroll, but
+     until that first update fires (e.g. before the section is reached)
+     this keeps it out of view instead of sitting fully in place. */
+  transform: translateY(100%);
 }
 .dolphin-scroll__about-card {
   width: 100%;
