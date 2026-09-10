@@ -1108,11 +1108,11 @@ section { padding-block: var(--space-16); }
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: clamp(1.5rem, 3vw, 2.5rem);
-  align-items: center;
+  align-items: stretch;
 }
 .dolphin-scroll__about-card .about__visual {
-  aspect-ratio: 4 / 5;
-  max-height: 20rem;
+  aspect-ratio: auto;
+  height: 100%;
 }
 .dolphin-scroll__about-card .about__title,
 .dolphin-scroll__about-card .about__body {
@@ -1129,6 +1129,8 @@ section { padding-block: var(--space-16); }
     gap: 1rem;
   }
   .dolphin-scroll__about-card .about__visual {
+    aspect-ratio: 4 / 5;
+    height: auto;
     max-height: 18rem;
   }
 }
