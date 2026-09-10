@@ -459,6 +459,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   padding-top: var(--header-h);
   position: relative;
   overflow: hidden;
+  background: var(--color-charcoal);
 }
 
 .hero__grain {
@@ -1055,6 +1056,7 @@ section { padding-block: var(--space-16); }
   height: 100svh;
   min-height: 480px;
   overflow: hidden;
+  background: var(--color-charcoal);
 }
 .dolphin-scroll__media {
   position: absolute;
@@ -1071,10 +1073,22 @@ section { padding-block: var(--space-16); }
 .dolphin-scroll__video::-webkit-media-controls {
   display: none !important;
 }
-.dolphin-scroll__about {
+/* A soft scrim between the video and the About copy — never abrupt, it
+   fades in exactly in step with the card's rise, so the video darkens
+   just enough for the white text to stay readable as it climbs. */
+.dolphin-scroll__about-scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.12) 0%, rgba(8, 8, 8, 0.6) 100%);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+.dolphin-scroll__about {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1111,7 +1125,7 @@ section { padding-block: var(--space-16); }
     gap: 1rem;
   }
   .dolphin-scroll__about-card .about__visual {
-    max-height: 10rem;
+    max-height: 18rem;
   }
 }
 .dolphin-scroll__content {

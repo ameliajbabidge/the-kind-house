@@ -80,6 +80,14 @@
   // sync with the real, final layout.
   window.addEventListener('load', () => ScrollTrigger.refresh());
 
+  // Web fonts can finish swapping in even after the load event (this is
+  // what was leaving a stale gap at the bottom of a pinned video section —
+  // the pin's scroll distance had been measured against the fallback
+  // font's slightly shorter text). Refresh again once the real fonts land.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
   // ---------- Image parallax ----------
   // Each image is scaled up slightly so its container (which clips overflow)
   // can mask a small vertical drift as the page scrolls past it.
