@@ -3,8 +3,6 @@
 
   const video = document.getElementById('dolphin-video');
   const section = video ? video.closest('.dolphin-scroll') : null;
-  const aboutOverlay = section ? section.querySelector('.dolphin-scroll__about') : null;
-  const aboutScrim = section ? section.querySelector('.dolphin-scroll__about-scrim') : null;
   if (!video || !section) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -75,23 +73,10 @@
       scrub: true,
       anticipatePin: 1,
       onUpdate(self) {
+        // The About photo and text sit over the video for the whole pin
+        // (see .dolphin-scroll__about) — scrolling only moves the film.
         target = self.progress * (video.duration || 0);
         requestRender();
-
-        // The About photo and text rise up from below the frame as the
-        // dolphin's video is finishing — the breach and jump play out
-        // underneath it while it climbs — and hold in place once fully up,
-        // so the pin only releases once it's settled and the video keeps
-        // running behind it. It's always fully opaque; visibility comes
-        // entirely from the rise, never a fade.
-        if (aboutOverlay) {
-          const RISE_FROM = 0.78;
-          const RISE_TO = 0.94;
-          const riseIn = Math.min(Math.max((self.progress - RISE_FROM) / (RISE_TO - RISE_FROM), 0), 1);
-          aboutOverlay.style.transform = `translateY(${(1 - riseIn) * 100}%)`;
-          aboutOverlay.style.pointerEvents = riseIn > 0.5 ? 'auto' : 'none';
-          if (aboutScrim) aboutScrim.style.opacity = riseIn;
-        }
       },
       onLeave() {
         // Scrolled past the end of the pin — let the clip keep playing for

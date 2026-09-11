@@ -25,7 +25,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <link rel="icon" href="assets/favicon.ico">
-  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/style.css?v=57">
 </head>
 <body class="has-hero-photo">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -40,22 +40,9 @@
         <img src="assets/img/the%20kind%20house%20logo.png" alt="The Kind House" class="brand__logo brand__logo--large">
       </a>
 
-      <div class="site-header__actions">
-        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
-          <span class="visually-hidden">Toggle menu</span>
-          <span class="nav-toggle__bar"></span>
-        </button>
-      </div>
+      <div class="site-header__actions"></div>
     </div>
 
-    <nav class="nav" id="site-nav" aria-label="Primary">
-      <ul class="nav__list container">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#work">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
   </header>
 
   <main id="main">
@@ -70,9 +57,20 @@
           muted
           playsinline
           preload="auto"
-          disableRemotePlayback
+          disableRemotePlayback disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen">
           <source src="assets/video/hero-scroll.mp4" type="video/mp4">
+        </video>
+        <video
+          id="hero-video-next"
+          class="hero__media-img hero__media-video hero__media-video--next"
+          poster="assets/img/dolphin-scroll-poster.jpg"
+          muted
+          playsinline
+          preload="auto"
+          disableRemotePlayback disablepictureinpicture
+          controlslist="nodownload noplaybackrate nofullscreen">
+          <source src="assets/video/dolphin-scroll.mp4" type="video/mp4">
         </video>
       </div>
 
@@ -87,11 +85,6 @@
             </a>
           </div>
         </div>
-      </div>
-
-      <div class="scroll-cue" aria-hidden="true">
-        <span class="scroll-cue__line"></span>
-        Scroll
       </div>
 
       <div class="hero__intro-overlay">
@@ -109,12 +102,12 @@
           <div class="section-head about-intro">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="about-intro__sun" aria-hidden="true">
             <h2 data-reveal>What I Do</h2>
-            <div class="about-intro__copy" data-reveal>
-              <p class="about-intro__lead">The Kind House helps thoughtful businesses tell their story through words that feel honest and true to who they are.</p>
-              <p class="about-intro__highlight">Writing has been at the heart of my work for more than eight years.</p>
-              <p>I've been lucky enough to work with businesses across <strong class="about-intro__highlight-inline">hospitality, wellness, lifestyle, sustainability, publishing, and the creative industries</strong>, helping them find a voice that feels true to who they are.</p>
-              <p>Along the way, I realised something important: people don't connect with businesses because everything looks perfect. They connect because something feels honest.</p>
-              <p>Over time, I realised words were never just one part of the job—they were the whole job. That's why The Kind House is a copywriting studio, and only a copywriting studio: no add-ons, no half-measures, just the words done properly.</p>
+            <div class="about-intro__copy">
+              <p class="about-intro__lead" data-reveal>The Kind House helps thoughtful businesses tell their story through words that feel honest and true to who they are.</p>
+              <p class="about-intro__highlight" data-reveal>Writing has been at the heart of my work for more than eight years.</p>
+              <p data-reveal>I've been lucky enough to work with businesses across <strong class="about-intro__highlight-inline">hospitality, wellness, lifestyle, sustainability, publishing, and the creative industries</strong>, helping them find a voice that feels true to who they are.</p>
+              <p data-reveal>Along the way, I realised something important: people don't connect with businesses because everything looks perfect. They connect because something feels honest.</p>
+              <p data-reveal>Over time, I realised words were never just one part of the job—they were the whole job. That's why The Kind House is a copywriting studio, and only a copywriting studio: no add-ons, no half-measures, just the words done properly.</p>
             </div>
           </div>
         </div>
@@ -137,36 +130,33 @@
           <p data-reveal>Every business is different, so every project is too. Whatever you need written—a website, a brand, an ongoing stream of content—we'll find the words that feel true to your business.</p>
         </div>
 
-        <div class="services__grid services__grid--primary">
-          <article class="service-card service-card--primary" data-reveal>
+        <div class="services__drum" role="region" aria-roledescription="carousel" aria-label="Services — scroll, drag, or use the arrow keys to turn" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>Website Copy</h3>
             <p>Every word your website needs—homepage to contact form—written to sound like you and do its job.</p>
           </article>
-          <article class="service-card service-card--primary" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>Brand Voice &amp; Messaging</h3>
             <p>Finding the words that capture who you are, so everything you write afterwards sounds unmistakably you.</p>
           </article>
-          <article class="service-card service-card--primary" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>SEO Copywriting</h3>
             <p>Quiet groundwork built into the writing itself, so the right people find you when they come looking.</p>
           </article>
-        </div>
-
-        <div class="services__grid services__grid--secondary">
-          <article class="service-card service-card--secondary" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>Editorial &amp; Content</h3>
             <p>Articles, journals, newsletters, and thoughtful content that builds trust over time.</p>
           </article>
-          <article class="service-card service-card--secondary" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>Copy Polish &amp; Line Edits</h3>
             <p>Already have the words? I'll refine the tone, tighten the details, and make sure every line sounds considered.</p>
           </article>
-          <article class="service-card service-card--secondary" data-reveal>
+          <article class="service-card">
             <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="service-card__sun" aria-hidden="true">
             <h3>Ongoing Copy Support</h3>
             <p>After the words are live, I'm still here—for new pages, seasonal updates, or just a question you'd rather ask a person.</p>
@@ -190,7 +180,7 @@
           muted
           playsinline
           preload="auto"
-          disableRemotePlayback
+          disableRemotePlayback disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen">
           <source src="assets/video/dolphin-scroll.mp4" type="video/mp4">
         </video>
@@ -198,9 +188,15 @@
       <div class="dolphin-scroll__about-scrim" aria-hidden="true"></div>
       <div class="dolphin-scroll__about">
         <div class="dolphin-scroll__about-card">
-          <div class="about__visual" aria-hidden="true">
-            <img src="assets/img/me%202.jpg" alt="" loading="lazy">
-          </div>
+          <figure class="about__profile">
+            <div class="about__visual">
+              <img src="assets/img/me%202.jpg" alt="Amelia Babidge writing in a notebook by the sea" loading="lazy">
+            </div>
+            <figcaption class="about__caption">
+              <span class="about__name">Amelia Babidge</span>
+              <span class="about__role">Copywriter &amp; Editor</span>
+            </figcaption>
+          </figure>
           <div class="about__text">
             <h2 class="about__title">About</h2>
             <p class="about__body">Hi, I'm Amelia. I'm an Australian copywriter and editor. Writing has always been at the heart of what I do, and The Kind House grew from a love of helping thoughtful businesses find the right words to tell their story.</p>
@@ -263,78 +259,90 @@
           <p data-reveal>A handful of projects that capture the heart of what I do — thoughtful words, careful thinking, and meaningful collaboration.</p>
         </div>
 
-        <div class="work__grid">
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://builtbest.us/" target="_blank" rel="noopener">
-              <img src="assets/img/couch.jpg" alt="Built Best — tiny house interior" loading="lazy">
-            </a>
-            <span class="work-card__index">01</span>
-            <h3>Built Best</h3>
-            <p>Full website copy with a light, witty tone that brings the brand's personality to life.</p>
-            <a href="https://builtbest.us/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+        <div class="work__panels" data-reveal>
+          <article class="work-panel is-active">
+            <img class="work-panel__img" src="assets/img/couch.jpg" alt="Built Best — tiny house interior" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">01</span>
+            <span class="work-panel__spine" aria-hidden="true">Built Best</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">01</span>
+              <h3>Built Best</h3>
+              <p>Full website copy with a light, witty tone that brings the brand's personality to life.</p>
+              <a href="https://builtbest.us/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://theohm.netlify.app/" target="_blank" rel="noopener">
-              <img src="assets/img/ohm%20image.jpg" alt="The Ohm — boutique hotel website homepage" loading="lazy">
-            </a>
-            <span class="work-card__index">02</span>
-            <h3>The Ohm</h3>
-            <p>Brand voice and website copy for a luxury oceanfront hotel — every word written to match the feeling of the place.</p>
-            <a href="https://theohm.netlify.app/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+          <article class="work-panel">
+            <img class="work-panel__img" src="assets/img/ohm%20image.jpg" alt="The Ohm — boutique hotel website homepage" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">02</span>
+            <span class="work-panel__spine" aria-hidden="true">The Ohm</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">02</span>
+              <h3>The Ohm</h3>
+              <p>Brand voice and website copy for a luxury oceanfront hotel — every word written to match the feeling of the place.</p>
+              <a href="https://theohm.netlify.app/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://wisdomacademybali.netlify.app/" target="_blank" rel="noopener">
-              <img src="assets/img/school.jpg" alt="Wisdom Academy — international school website" loading="lazy">
-            </a>
-            <span class="work-card__index">03</span>
-            <h3>Wisdom Academy</h3>
-            <p>New website copy for an international school, written to feel warmer and more engaging for the families reading it.</p>
-            <a href="https://wisdomacademybali.netlify.app/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+          <article class="work-panel">
+            <img class="work-panel__img" src="assets/img/school.jpg" alt="Wisdom Academy — international school website" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">03</span>
+            <span class="work-panel__spine" aria-hidden="true">Wisdom Academy</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">03</span>
+              <h3>Wisdom Academy</h3>
+              <p>New website copy for an international school, written to feel warmer and more engaging for the families reading it.</p>
+              <a href="https://wisdomacademybali.netlify.app/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://maisonartc.netlify.app/" target="_blank" rel="noopener">
-              <img src="assets/img/maison-artc.jpg" alt="Maison ARTC — culture house website" loading="lazy">
-            </a>
-            <span class="work-card__index">04</span>
-            <h3>Maison ARTC</h3>
-            <p>Brand storytelling and website copy for a Marrakech culture house crafting one-of-a-kind heritage pieces.</p>
-            <a href="https://maisonartc.netlify.app/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+          <article class="work-panel">
+            <img class="work-panel__img" src="assets/img/maison-artc.jpg" alt="Maison ARTC — culture house website" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">04</span>
+            <span class="work-panel__spine" aria-hidden="true">Maison ARTC</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">04</span>
+              <h3>Maison ARTC</h3>
+              <p>Brand storytelling and website copy for a Marrakech culture house crafting one-of-a-kind heritage pieces.</p>
+              <a href="https://maisonartc.netlify.app/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://gordgeconstructions.netlify.app/" target="_blank" rel="noopener">
-              <img src="assets/img/gordge-constructions.jpg" alt="Gordge Constructions — custom carpentry website" loading="lazy">
-            </a>
-            <span class="work-card__index">05</span>
-            <h3>Gordge Constructions</h3>
-            <p>Website copy for a custom carpentry and renovation business on the South Coast — words as considered as the joinery.</p>
-            <a href="https://gordgeconstructions.netlify.app/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+          <article class="work-panel">
+            <img class="work-panel__img" src="assets/img/gordge-constructions.jpg" alt="Gordge Constructions — custom carpentry website" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">05</span>
+            <span class="work-panel__spine" aria-hidden="true">Gordge Constructions</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">05</span>
+              <h3>Gordge Constructions</h3>
+              <p>Website copy for a custom carpentry and renovation business on the South Coast — words as considered as the joinery.</p>
+              <a href="https://gordgeconstructions.netlify.app/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
-          <article class="work-card" data-reveal>
-            <a class="work-card__media" href="https://masionstudio.netlify.app/" target="_blank" rel="noopener">
-              <img src="assets/img/maison-studio.jpg" alt="Maison Studio — content studio website" loading="lazy">
-            </a>
-            <span class="work-card__index">06</span>
-            <h3>Maison Studio</h3>
-            <p>Brand copy for a boutique content studio producing photography and film for luxury hospitality and yachting brands.</p>
-            <a href="https://masionstudio.netlify.app/" class="work-card__link" target="_blank" rel="noopener">
-              View Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+          <article class="work-panel">
+            <img class="work-panel__img" src="assets/img/maison-studio.jpg" alt="Maison Studio — content studio website" loading="lazy">
+            <span class="work-panel__index" aria-hidden="true">06</span>
+            <span class="work-panel__spine" aria-hidden="true">Maison Studio</span>
+            <div class="work-panel__body">
+              <span class="work-panel__num">06</span>
+              <h3>Maison Studio</h3>
+              <p>Brand copy for a boutique content studio producing photography and film for luxury hospitality and yachting brands.</p>
+              <a href="https://masionstudio.netlify.app/" class="work-panel__link" target="_blank" rel="noopener">
+                View Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
         </div>
       </div>
@@ -350,7 +358,7 @@
           muted
           playsinline
           preload="auto"
-          disableRemotePlayback
+          disableRemotePlayback disablepictureinpicture
           controlslist="nodownload noplaybackrate nofullscreen">
           <source src="assets/video/bird-scroll.mp4" type="video/mp4">
         </video>
@@ -367,37 +375,47 @@
 
 
     <!-- ============ CONTACT / FINAL CTA ============ -->
-    <section id="contact" class="section-alt">
+    <section id="contact">
+      <div class="contact__glow" aria-hidden="true"></div>
+      <svg class="contact__sun" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="15" />
+        <path d="M 69.36 52.33 L 83.76 54.07 M 68.30 60.30 L 76.14 64.72 M 62.96 66.52 L 70.99 76.75 M 55.25 68.78 L 58.08 78.89 M 47.49 70.85 L 45.93 83.76 M 39.70 68.30 L 35.28 76.14 M 34.66 62.04 L 23.25 70.99 M 29.78 55.66 L 21.11 58.08 M 29.15 47.49 L 16.24 45.93 M 33.01 40.43 L 23.86 35.28 M 37.04 33.48 L 29.01 23.25 M 44.34 29.78 L 41.92 21.11 M 52.33 30.64 L 54.07 16.24 M 60.30 31.70 L 64.72 23.86 M 66.52 37.04 L 76.75 29.01 M 68.78 44.75 L 78.89 41.92" />
+      </svg>
       <div class="container contact__grid">
-        <div data-reveal>
+        <div class="contact__intro" data-reveal>
           <h2>Get in Touch</h2>
           <p class="contact__lead">Tell me about your business. I'd love to hear your story.</p>
           <p class="contact__body">Whether you're just getting started or looking for a fresh perspective, I'd love to learn more about what you're building. Every project begins with a conversation, and together we'll see whether The Kind House feels like the right fit.</p>
-          <a href="mailto:hello@thekindhouse.co" class="contact__email">hello@thekindhouse.co</a>
+          <a href="mailto:hello@thekindhouse.co" class="contact__email">
+            <span>hello@thekindhouse.co</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
 
         <form class="form" id="contact-form" action="https://formspree.io/f/mjgndbad" method="POST" data-reveal>
+          <img src="assets/img/sun%20logo%20dark%20yellow.png" alt="" class="form__sun" aria-hidden="true" loading="lazy">
           <p class="form__intro">A few details, and I'll be in touch soon.</p>
           <div class="field-row">
             <div class="field">
+              <input id="name" name="name" type="text" placeholder=" " autocomplete="name" required>
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" required>
             </div>
             <div class="field">
+              <input id="email" name="email" type="email" placeholder=" " autocomplete="email" required>
               <label for="email">Email</label>
-              <input id="email" name="email" type="email" required>
             </div>
           </div>
           <div class="field">
+            <input id="business" name="business" type="text" placeholder=" " autocomplete="organization">
             <label for="business">Business or website</label>
-            <input id="business" name="business" type="text">
           </div>
           <div class="field">
+            <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
             <label for="message">Tell me a little about it</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
           </div>
           <button type="submit" class="btn btn-primary form__submit">
             <span class="btn-label">Send a Note</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
           <p class="form__status" id="contact-status" role="status"></p>
         </form>
@@ -409,7 +427,7 @@
   <footer class="site-footer">
     <div class="container footer__bottom-only">
       <a href="#top" class="brand">
-        <img src="assets/img/the-kind-house-logo-white.png" alt="The Kind House" class="brand__logo brand__logo--footer">
+        <img src="assets/img/the%20kind%20house%20logo.png" alt="The Kind House" class="brand__logo brand__logo--footer">
       </a>
       <div class="footer__text">
         <p class="footer__copyright">&copy; <span id="year"></span> The Kind House. Made with care.</p>
@@ -422,8 +440,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/hero-scroll.js"></script>
   <script src="js/dolphin-scroll.js"></script>
+  <script src="js/process-arc.js"></script>
   <script src="js/bird-scroll.js"></script>
   <script src="js/script.js"></script>
   <script src="js/motion.js"></script>
+  <script src="js/services-drum.js"></script>
+  <script src="js/work-panels.js"></script>
 </body>
 </html>

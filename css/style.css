@@ -141,7 +141,10 @@ body::after {
   z-index: 300;
   pointer-events: none;
   opacity: 0.05;
-  mix-blend-mode: multiply;
+  /* Its own GPU layer, and no blend mode: a fixed full-screen overlay set to
+     multiply made the browser re-blend the entire page on every scroll
+     frame. At 5% the plain overlay looks the same. */
+  transform: translateZ(0);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.14  0 0 0 0.9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 180px 180px;
 }
@@ -319,7 +322,7 @@ body.has-hero-photo .site-header.is-scrolled {
 
 .brand--logo-only { justify-self: center; }
 .brand__logo { height: 40px; width: auto; }
-.brand__logo--large { height: 100px; }
+.brand__logo--large { height: 64px; }
 .brand__logo--footer { height: 95px; }
 
 .site-header__top {
@@ -504,6 +507,20 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
 .hero__media-video::-webkit-media-controls {
   display: none !important;
 }
+/* The dolphin clip picks up where the hero film ends underwater: stacked
+   exactly over it and hidden until the pin releases, then it plays on in
+   the same frame as the hero scrolls away (see hero-scroll.js). */
+.hero__media-video--next {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Same scene, but the fish aren't in exactly the same places — a short
+     dissolve lets them blend across instead of jumping. */
+  transition: opacity 0.6s ease;
+}
+.hero__media-video--next.is-playing {
+  opacity: 1;
+}
 .hero__media-placeholder {
   position: absolute;
   inset: 0;
@@ -525,7 +542,8 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   text-transform: uppercase;
   letter-spacing: 0.01em;
   line-height: 1.16;
-  font-size: clamp(1.4rem, 1.05rem + 1.6vw, 2.125rem);
+  /* A touch smaller than it was, to sit in proportion with the smaller logo. */
+  font-size: clamp(1.3rem, 1rem + 1.35vw, 1.875rem);
   max-width: 22ch;
   margin-top: var(--space-12);
   color: var(--color-on-dark);
@@ -538,7 +556,7 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
 
 .hero__lede {
   margin-top: var(--space-6);
-  font-size: var(--step-md);
+  font-size: 1.125rem;
   color: var(--color-on-dark);
   opacity: 0.85;
   max-width: 34ch;
@@ -553,25 +571,8 @@ body.has-hero-photo .site-header .nav:not(.is-open) .nav__list a:hover {
   justify-content: center;
   gap: 1rem;
 }
-
-.scroll-cue {
-  position: absolute;
-  bottom: var(--space-8);
-  left: clamp(1.5rem, 4vw, 3.5rem);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: var(--step-xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-charcoal-faint);
-  transition: opacity 0.15s linear;
-}
-.scroll-cue__line { width: 32px; height: 1px; background: currentColor; }
-body.has-hero-photo .scroll-cue {
-  color: var(--color-on-dark);
-  text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4);
-}
+/* Same solid butter button as before, a touch smaller to match. */
+.hero__actions .btn-primary { padding: 0.85rem 1.6rem; }
 
 .hero__intro-overlay {
   position: absolute;
@@ -590,7 +591,6 @@ body.has-hero-photo .scroll-cue {
   text-shadow: 0 1px 3px rgba(20, 16, 12, 0.4), 0 12px 32px rgba(20, 16, 12, 0.3);
   max-width: 34rem;
 }
-
 /* ==========================================================================
    Section rhythm
    ========================================================================== */
@@ -621,7 +621,12 @@ section { padding-block: var(--space-16); }
 /* A woven panel of light and shadow behind the service cards — a fine
    thread grain, three drifting folds (each its own speed and colour, for
    depth), and an occasional sheen — so the background reads as fabric
-   catching a slow current of air rather than a flat tinted panel. */
+   catching a slow current of air rather than a flat tinted panel.
+   Built to stay light: every layer is drawn once and then only moved
+   (transform/opacity, which the GPU composites almost for free) — no live
+   blur, no blend modes, no animated background-position — and it all
+   pauses while the band is off screen (see js/motion.js). The colours are
+   tuned to match what the old soft-light blending gave on this butter. */
 .services__fabric {
   position: absolute;
   inset: 0;
@@ -631,80 +636,79 @@ section { padding-block: var(--space-16); }
 }
 .services__fabric-weave {
   position: absolute;
-  inset: -5%;
+  inset: 0;
   background-image:
-    repeating-linear-gradient(90deg, rgba(20, 16, 12, 0.05) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(0deg, rgba(20, 16, 12, 0.035) 0 1px, transparent 1px 3px);
-  mix-blend-mode: multiply;
-  opacity: 0.5;
+    repeating-linear-gradient(90deg, rgba(20, 16, 12, 0.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(20, 16, 12, 0.025) 0 1px, transparent 1px 3px);
 }
 .services__fabric-fold {
   position: absolute;
-  inset: -30% -20%;
-  background-repeat: repeat;
-  mix-blend-mode: soft-light;
-  will-change: transform, background-position;
+  top: -8%;
+  bottom: -8%;
+  left: -20%;
+  width: 200%;
+  will-change: transform;
 }
+/* Each fold pattern starts and ends clear, so it repeats with no hard seam —
+   that's what gives the soft, blurred-looking folds without a live blur. */
 .services__fabric-fold--a {
   background-image: repeating-linear-gradient(
     96deg,
-    rgba(255, 252, 240, 0.55) 0%,
-    rgba(255, 252, 240, 0) 5%,
-    rgba(63, 38, 20, 0.14) 10%,
-    rgba(255, 252, 240, 0) 16%
+    rgba(255, 252, 240, 0) 0%,
+    rgba(255, 252, 240, 0.36) 7%,
+    rgba(255, 252, 240, 0) 14%,
+    rgba(63, 38, 20, 0.07) 21%,
+    rgba(255, 252, 240, 0) 29%
   );
-  background-size: 260% 100%;
-  filter: blur(3px);
   animation: fabricFoldA 22s ease-in-out infinite;
 }
 .services__fabric-fold--b {
   background-image: repeating-linear-gradient(
     82deg,
-    rgba(255, 252, 240, 0.35) 0%,
-    rgba(255, 252, 240, 0) 6%,
-    rgba(107, 39, 55, 0.14) 13%,
-    rgba(255, 252, 240, 0) 20%
+    rgba(255, 252, 240, 0) 0%,
+    rgba(255, 252, 240, 0.24) 8%,
+    rgba(255, 252, 240, 0) 16%,
+    rgba(107, 39, 55, 0.05) 23%,
+    rgba(255, 252, 240, 0) 31%
   );
-  background-size: 220% 100%;
-  filter: blur(5px);
-  opacity: 0.85;
   animation: fabricFoldB 27s ease-in-out infinite reverse;
 }
 .services__fabric-fold--c {
   background-image: repeating-linear-gradient(
     100deg,
-    rgba(250, 215, 122, 0.28) 0%,
-    rgba(250, 215, 122, 0) 8%,
-    transparent 16%
+    rgba(250, 215, 122, 0) 0%,
+    rgba(250, 215, 122, 0.14) 12%,
+    rgba(250, 215, 122, 0) 24%,
+    rgba(250, 215, 122, 0) 33%
   );
-  background-size: 300% 100%;
-  filter: blur(8px);
-  opacity: 0.7;
-  animation: fabricFoldC 34s linear infinite;
+  animation: fabricFoldC 34s ease-in-out infinite alternate;
 }
 .services__fabric-sheen {
   position: absolute;
-  inset: -50% -30%;
-  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.35) 48%, transparent 56%);
-  mix-blend-mode: soft-light;
+  inset: 0 -30%;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.16) 48%, transparent 56%);
+  will-change: transform, opacity;
   animation: fabricSheen 16s ease-in-out infinite;
 }
 @keyframes fabricFoldA {
-  0%, 100% { background-position: 0% 50%; transform: scaleY(1) skewX(0deg); }
-  50% { background-position: 55% 50%; transform: scaleY(1.015) skewX(-0.6deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) scaleY(1) skewX(0deg); }
+  50% { transform: translate3d(-32%, 0, 0) scaleY(1.015) skewX(-0.6deg); }
 }
 @keyframes fabricFoldB {
-  0%, 100% { background-position: 0% 50%; transform: scaleY(1) skewX(0deg); }
-  50% { background-position: 60% 50%; transform: scaleY(0.985) skewX(0.5deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) scaleY(1) skewX(0deg); }
+  50% { transform: translate3d(-35%, 0, 0) scaleY(0.985) skewX(0.5deg); }
 }
 @keyframes fabricFoldC {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-35%, 0, 0); }
 }
 @keyframes fabricSheen {
-  0%, 78%, 100% { transform: translateX(-60%); opacity: 0; }
+  0%, 78%, 100% { transform: translate3d(-60%, 0, 0); opacity: 0; }
   85% { opacity: 0.9; }
-  92% { transform: translateX(60%); opacity: 0; }
+  92% { transform: translate3d(60%, 0, 0); opacity: 0; }
+}
+.services__band.is-offscreen .services__fabric * {
+  animation-play-state: paused;
 }
 @media (prefers-reduced-motion: reduce) {
   .services__fabric-fold, .services__fabric-sheen { animation: none; }
@@ -828,9 +832,33 @@ section { padding-block: var(--space-16); }
   .services__head h2 { white-space: nowrap; }
 }
 
-.service-card__sun { display: block; width: 32px; height: auto; margin-inline: auto; transition: transform 0.6s var(--ease-out); }
-.service-card:hover .service-card__sun { transform: rotate(35deg); }
-.service-card h3 { margin-top: var(--space-4); font-size: var(--step-lg); font-family: var(--font-display); font-weight: 700; text-align: center; }
+/* Hovering a service lights its sun: it glows warm honey, grows a touch and
+   spins — and stops where it is when you move away, rather than snapping
+   back (the spin is always there, just paused until you hover). The title
+   turns wine alongside it. The glow is on a tiny image, so it stays cheap. */
+.service-card__sun {
+  display: block;
+  width: 32px;
+  height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 0 0 rgba(235, 186, 89, 0));
+  animation: serviceSunSpin 6s linear infinite;
+  animation-play-state: paused;
+  transition: scale 0.5s var(--ease-out), filter 0.5s var(--ease-out);
+}
+.service-card:hover .service-card__sun {
+  scale: 1.2;
+  filter: drop-shadow(0 0 6px rgba(250, 215, 122, 0.95)) drop-shadow(0 0 16px rgba(235, 186, 89, 0.7));
+  animation-play-state: running;
+}
+@keyframes serviceSunSpin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-card__sun { animation: none; }
+}
+.service-card h3 { margin-top: var(--space-4); font-size: var(--step-lg); font-family: var(--font-display); font-weight: 700; text-align: center; transition: color 0.4s var(--ease-out); }
+.service-card:hover h3 { color: var(--color-wine); }
 .service-card p { margin-top: var(--space-3); color: var(--color-charcoal-soft); font-size: var(--step-sm); line-height: 1.7; text-align: center; }
 
 .services__grid {
@@ -842,6 +870,137 @@ section { padding-block: var(--space-16); }
 .services__grid--primary { margin-top: var(--space-16); }
 .services__grid--secondary {
   margin-top: var(--space-14);
+}
+
+/* What I Can Help With — the six services on a drum (js/services-drum.js):
+   their titles stand round a wheel that turns towards you, the one in the
+   window is chosen and its words show beside it. Until that script runs —
+   or if it never does — they fall back to a plain grid. */
+.services__drum {
+  margin-top: var(--space-16);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(1.5rem, 4vw, 3rem);
+  row-gap: var(--space-12);
+}
+@media (max-width: 900px) {
+  .services__drum { grid-template-columns: 1fr; }
+}
+.services__drum.is-drum {
+  grid-template-columns: 1.5fr 1fr;
+  align-items: center;
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  margin-top: var(--space-8);
+}
+/* Keep the closing line close beneath the drum. */
+.services__drum.is-drum + .services__closing { margin-top: var(--space-8); }
+.services__drum-wheel {
+  position: relative;
+  height: clamp(360px, 32vw, 440px);
+  perspective: 1000px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  /* Titles fade away towards the top and bottom of the wheel. */
+  -webkit-mask-image: linear-gradient(transparent, #000 24%, #000 76%, transparent);
+  mask-image: linear-gradient(transparent, #000 24%, #000 76%, transparent);
+}
+.services__drum.is-dragging,
+.services__drum.is-dragging .service-card { cursor: grabbing; }
+/* The window the chosen title sits in: two fine honey rules. */
+.services__drum-window {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 4.5rem;
+  margin-top: -2.25rem;
+  border-top: 1px solid rgba(184, 134, 42, 0.45);
+  border-bottom: 1px solid rgba(184, 134, 42, 0.45);
+  pointer-events: none;
+}
+.services__drum.is-drum .service-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3rem;
+  margin-top: -1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+.services__drum.is-drum .service-card.is-active { cursor: grab; }
+.services__drum.is-drum .service-card__sun { display: none; }
+/* The title's colour is set frame by frame as it turns into the window. */
+.services__drum.is-drum .service-card h3 {
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(1.35rem, 0.6rem + 1.7vw, 2rem);
+  transition: none;
+}
+/* Each description stays in the page for screen readers; on screen the
+   chosen one shows beside the wheel instead. */
+.services__drum.is-drum .service-card p {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* Keyboard focus: a honey underline on the chosen title. */
+.services__drum-wheel:focus-visible .service-card.is-active h3 {
+  text-decoration: underline;
+  text-decoration-color: var(--color-honey);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+.services__drum-side { max-width: 24rem; }
+.services__drum-count {
+  font-size: var(--step-xs);
+  letter-spacing: 0.22em;
+  color: var(--color-honey-deep);
+}
+.services__drum-desc {
+  margin-top: var(--space-4);
+  min-height: 7em;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-charcoal-soft);
+}
+.services__drum-link {
+  display: inline-block;
+  margin-top: var(--space-4);
+  padding-bottom: 2px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--color-wine);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-honey);
+  transition: border-color 0.3s var(--ease-out);
+}
+.services__drum-link:hover { border-bottom-color: var(--color-wine); }
+.services__drum-hint {
+  margin-top: var(--space-8);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 40, 0.45);
+}
+@media (max-width: 760px) {
+  .services__drum.is-drum { grid-template-columns: 1fr; row-gap: var(--space-4); }
+  .services__drum-wheel { height: 300px; }
+  .services__drum-side { max-width: none; text-align: center; }
+  .services__drum-desc { min-height: 8.5em; }
+  .services__drum-hint { margin-top: var(--space-4); }
 }
 
 .service-card--secondary .service-card__sun { width: 24px; opacity: 0.82; }
@@ -1020,6 +1179,16 @@ section { padding-block: var(--space-16); }
   color: var(--color-wine);
   position: relative;
   z-index: 1;
+  transition: background-color 0.45s var(--ease-out), border-color 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+/* Hovering a step lights its number: the circle fills with warm honey and
+   glows softly, in time with the title's letter wave. */
+.process__step:hover .process__marker {
+  background-color: var(--color-honey);
+  border-color: var(--color-honey-deep);
+  box-shadow: 0 0 0 6px rgba(235, 186, 89, 0.22), 0 10px 28px -6px rgba(235, 186, 89, 0.7);
+  transform: scale(1.06);
 }
 .process__body h3 {
   font-family: var(--font-display);
@@ -1047,6 +1216,121 @@ section { padding-block: var(--space-16); }
   .process__marker { width: 40px; height: 40px; font-size: 0.85rem; }
 }
 
+/* How I Work as the sun's arc (js/process-arc.js). The list above is what
+   phones, reduced motion and no-JS get; these rules only apply once the
+   script has turned the list into the arc. */
+.process.is-arc {
+  max-width: 60rem;
+  height: clamp(440px, 44vw, 520px);
+  margin-top: var(--space-8);
+}
+.process.is-arc .process__steps { display: block; }
+.process.is-arc .process__step {
+  position: static;
+  display: block;
+  opacity: 1 !important;
+  /* The scroll-reveal's transform would trap the absolutely placed parts. */
+  transform: none !important;
+}
+/* As the line travels from 01 to 04 the section warms towards butter yellow:
+   an opacity-only layer behind the content, faded in by js/process-arc.js. */
+#process { position: relative; }
+#process > .container { position: relative; z-index: 1; }
+/* While it's held on screen the section fills the whole window, so the
+   warming yellow reaches every edge (no strip of the page showing above or
+   below it). */
+#process.has-arc {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#process.has-arc > .container { width: 100%; }
+.process__warmth {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #f9e8b4, #f5d98a);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+.process__arc {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.process__horizon {
+  stroke: url(#process-horizon-fade);
+  stroke-width: 1;
+}
+.process__arc-base {
+  fill: none;
+  stroke: rgba(46, 43, 40, 0.2);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 7;
+  stroke-linecap: round;
+}
+.process__arc-trail {
+  fill: none;
+  stroke: var(--color-honey);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+/* Stations: the step's circle sits on the arc (centred with `translate`, so
+   the hover's scale still composes), its name just beneath. */
+.process.is-arc .process__marker {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  translate: -50% -50%;
+  cursor: pointer;
+}
+.process.is-arc .process__step.is-passed .process__marker { border-color: var(--color-honey-deep); }
+.process.is-arc .process__step.is-active .process__marker {
+  background-color: var(--color-honey);
+  border-color: var(--color-honey-deep);
+  box-shadow: 0 0 0 6px rgba(235, 186, 89, 0.22), 0 10px 28px -6px rgba(235, 186, 89, 0.7);
+  transform: scale(1.06);
+}
+.process__label {
+  position: absolute;
+  left: var(--lx);
+  top: var(--ly);
+  translate: var(--ax) var(--ay);
+  white-space: nowrap;
+  font-size: var(--step-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-charcoal-soft);
+  cursor: pointer;
+  transition: color 0.4s var(--ease-out), opacity 0.4s var(--ease-out);
+}
+.process__step:not(.is-active):not(.is-passed) .process__label { opacity: 0.6; }
+.process__step.is-active .process__label { color: var(--color-wine); }
+/* The step the line has reached: its title and words in the middle of the arc. */
+.process.is-arc .process__body {
+  position: absolute;
+  left: 50%;
+  top: var(--body-top);
+  width: min(24rem, 50%);
+  translate: -50% 0;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.6s var(--ease-out);
+}
+.process.is-arc .process__step.is-active .process__body {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.process.is-arc .process__body h3 { font-size: var(--step-xl); }
+.process.is-arc .process__body p { margin-top: var(--space-3); }
+
 /* ==========================================================================
    Dolphin interlude
    ========================================================================== */
@@ -1073,18 +1357,20 @@ section { padding-block: var(--space-16); }
 .dolphin-scroll__video::-webkit-media-controls {
   display: none !important;
 }
-/* A soft scrim between the video and the About copy — never abrupt, it
-   fades in exactly in step with the card's rise, so the video darkens
-   just enough for the white text to stay readable as it climbs. */
+/* A soft, constant scrim between the video and the About copy — darker on
+   the text side so the white copy stays readable over the bright frames
+   (the splash, the breach), lighter behind the photo so the film still
+   reads through. */
 .dolphin-scroll__about-scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.12) 0%, rgba(8, 8, 8, 0.6) 100%);
-  opacity: 0;
+  background: linear-gradient(90deg, rgba(14, 12, 10, 0.3) 0%, rgba(14, 12, 10, 0.48) 45%, rgba(14, 12, 10, 0.6) 100%);
   pointer-events: none;
-  will-change: opacity;
 }
+/* The About photo, name and text sit over the dolphin video for the whole
+   pin — only the film moves as you scroll. Everything is sized against the
+   frame's height so the card always fits in view, with nothing clipped. */
 .dolphin-scroll__about {
   position: absolute;
   inset: 0;
@@ -1092,46 +1378,133 @@ section { padding-block: var(--space-16); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(1.25rem, 4vw, 3rem);
+  padding: clamp(2rem, 7svh, 4.5rem) clamp(1.5rem, 5vw, 4rem);
   pointer-events: none;
-  will-change: transform;
-  /* Hidden below the frame by default — JS overrides this on scroll, but
-     until that first update fires (e.g. before the section is reached)
-     this keeps it out of view instead of sitting fully in place. */
-  transform: translateY(100%);
 }
 .dolphin-scroll__about-card {
   width: 100%;
-  max-width: 56rem;
-  max-height: 100%;
-  overflow: auto;
+  max-width: 60rem;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 8fr);
+  gap: clamp(2rem, 6vw, 5.5rem);
+  align-items: center;
+  pointer-events: auto;
+}
+.about__profile {
+  margin: 0;
+  justify-self: end;
+  width: 100%;
+  /* The 3:4 photo plus its caption have to fit the frame's height. */
+  max-width: calc((100svh - 14rem) * 0.75);
 }
 .dolphin-scroll__about-card .about__visual {
-  aspect-ratio: auto;
-  height: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 1.25rem;
+  animation: none;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.55);
+}
+.dolphin-scroll__about-card .about__visual img {
+  object-position: 32% 60%;
+}
+.about__caption {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.about__name {
+  font-family: var(--font-display);
+  font-size: var(--step-md);
+  font-weight: 500;
+  line-height: 1.2;
+}
+.about__role {
+  font-family: var(--font-sans);
+  font-size: var(--step-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-honey);
+}
+.dolphin-scroll__about-card .about__text {
+  max-width: 34rem;
+}
+.dolphin-scroll__about-card .about__title::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  margin-top: var(--space-4);
+  background: var(--color-honey);
 }
 .dolphin-scroll__about-card .about__title,
-.dolphin-scroll__about-card .about__body {
+.dolphin-scroll__about-card .about__body,
+.about__name {
   color: #fff;
   text-shadow: 0 1px 3px rgba(20, 16, 12, 0.45), 0 12px 32px rgba(20, 16, 12, 0.3);
 }
 .dolphin-scroll__about-card .about__body {
-  font-size: var(--step-sm);
+  font-size: clamp(0.95rem, 0.6rem + 0.9svh, 1.0625rem);
+  line-height: 1.7;
 }
 @media (max-width: 760px) {
-  .dolphin-scroll__about-card {
-    grid-template-columns: 1fr;
+  .dolphin-scroll__about-scrim {
+    background: rgba(14, 12, 10, 0.52);
+  }
+  .dolphin-scroll__about {
     padding: 1.25rem;
-    gap: 1rem;
+  }
+  /* One compact column: a small portrait beside the heading and name,
+     then the full text underneath — so all of it fits a phone's frame. */
+  .dolphin-scroll__about-card {
+    max-width: 30rem;
+    grid-template-columns: 5.25rem minmax(0, 1fr);
+    column-gap: 1rem;
+    row-gap: 0;
+    align-items: start;
+  }
+  .about__profile,
+  .dolphin-scroll__about-card .about__text {
+    display: contents;
   }
   .dolphin-scroll__about-card .about__visual {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    /* Fill the column — the generic ≤900px auto margins would shrink-wrap
+       it to nothing here, since the image inside is sized to 100% of it. */
+    width: 100%;
+    margin-inline: 0;
     aspect-ratio: 4 / 5;
-    height: auto;
-    max-height: 18rem;
+    border-radius: 0.875rem;
+  }
+  .dolphin-scroll__about-card .about__title {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    font-size: var(--step-xl);
+  }
+  .dolphin-scroll__about-card .about__title::after {
+    width: 2rem;
+    margin-top: var(--space-2);
+  }
+  .about__caption {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    margin-top: var(--space-2);
+    gap: 0.2rem;
+  }
+  .about__name {
+    font-size: var(--step-base);
+  }
+  .dolphin-scroll__about-card .about__body {
+    grid-column: 1 / -1;
+    margin-top: var(--space-5);
+    font-size: clamp(0.78rem, 0.2rem + 1.7svh, 0.95rem);
+    line-height: 1.55;
+  }
+  .dolphin-scroll__about-card .about__body + .about__body {
+    margin-top: var(--space-3);
   }
 }
 .dolphin-scroll__content {
@@ -1220,6 +1593,185 @@ section { padding-block: var(--space-16); }
   background: var(--color-wine);
   display: inline-block;
 }
+/* Projects: a quiet, warm ground with the faintest linen weave — static, so
+   it costs nothing to scroll past. */
+#work {
+  background-color: #f3ecd8;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(46, 43, 40, 0.028) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(46, 43, 40, 0.02) 0 1px, transparent 1px 4px);
+}
+
+/* The six projects as opening panels: tall slices of their photos side by
+   side; the one you point at opens wide (and stays open) while the others
+   fold narrow. On a phone they stack and open with a tap (js/work-panels.js).
+   Everything that moves is transform/opacity, apart from the slices' widths. */
+.work__panels {
+  display: flex;
+  gap: 0.75rem;
+  height: clamp(420px, 38vw, 540px);
+  margin-top: var(--space-12);
+}
+.work-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--color-charcoal);
+  isolation: isolate;
+  cursor: pointer;
+  transition: flex-grow 0.7s var(--ease-out);
+}
+.work-panel.is-active {
+  flex-grow: 5;
+  cursor: default;
+}
+.work-panel__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 1.2s var(--ease-out);
+}
+.work-panel.is-active .work-panel__img { transform: scale(1); }
+/* A dim veil over the closed slices (lifted when one opens), and a soft
+   shade at the foot so the words read over any photo. */
+.work-panel::before,
+.work-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.work-panel::before {
+  background: rgba(20, 16, 12, 0.32);
+  transition: opacity 0.7s var(--ease-out);
+}
+.work-panel.is-active::before { opacity: 0; }
+.work-panel::after {
+  background: linear-gradient(180deg, rgba(20, 16, 12, 0.18) 0%, rgba(20, 16, 12, 0) 35%, rgba(20, 16, 12, 0.72) 100%);
+}
+.work-panel__index,
+.work-panel__spine {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  color: var(--color-on-dark);
+  transition: opacity 0.35s ease;
+}
+.work-panel__index {
+  top: 1.1rem;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+}
+.work-panel__spine {
+  bottom: 1.4rem;
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.work-panel.is-active .work-panel__index,
+.work-panel.is-active .work-panel__spine { opacity: 0; }
+.work-panel__body {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  min-width: 22rem; /* so the words don't rewrap while the slice widens */
+  padding: clamp(1.25rem, 2.4vw, 2rem);
+  color: var(--color-on-dark);
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.5s var(--ease-out);
+}
+.work-panel.is-active .work-panel__body {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.28s;
+}
+.work-panel__num {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--color-honey);
+}
+.work-panel__body h3 {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-lg);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.work-panel__body p {
+  margin-top: 0.5rem;
+  max-width: 36ch;
+  font-size: var(--step-sm);
+  line-height: 1.6;
+  color: rgba(252, 233, 181, 0.88);
+}
+.work-panel__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(250, 215, 122, 0.5);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-butter);
+}
+.work-panel__link svg {
+  width: 1em;
+  height: 1em;
+  transition: transform 0.3s var(--ease-out);
+}
+.work-panel__link:hover svg { transform: translateX(3px); }
+@media (max-width: 800px) {
+  .work__panels {
+    flex-direction: column;
+    height: auto;
+  }
+  .work-panel {
+    flex: none;
+    height: 76px;
+    transition: height 0.6s var(--ease-out);
+  }
+  .work-panel.is-active { height: 400px; }
+  .work-panel__index {
+    top: 50%;
+    left: auto;
+    right: 1.25rem;
+    transform: translateY(-50%);
+  }
+  .work-panel__spine {
+    left: 1.25rem;
+    bottom: 50%;
+    transform: translateY(50%);
+    writing-mode: horizontal-tb;
+  }
+  .work-panel__body { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-panel,
+  .work-panel__img,
+  .work-panel__body,
+  .work-panel::before { transition: none; }
+}
 .work__grid {
   margin-top: var(--space-16);
   display: grid;
@@ -1232,6 +1784,31 @@ section { padding-block: var(--space-16); }
   border-radius: 1rem;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  /* 3D tilt toward the pointer (values eased in js/motion.js). Isolation
+     keeps the rounded corners clipping the image while it's tilted. */
+  position: relative;
+  isolation: isolate;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  box-shadow: var(--tilt-sx, 0px) var(--tilt-sy, 18px) 44px -24px rgba(46, 43, 40, 0.45);
+}
+/* A soft, warm glare that follows the pointer across the photo. */
+.work-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgba(255, 244, 214, 0.55), rgba(255, 244, 214, 0) 58%);
+  mix-blend-mode: soft-light;
+  opacity: var(--tilt-on, 0);
+}
+/* The image drifts the other way inside its frame, like a window. (The
+   separate `translate` property composes with the scroll parallax's own
+   transform instead of replacing it. It needs !important because GSAP
+   writes an inline `translate: none` onto the images it animates — it
+   never uses the property itself, so nothing is lost.) */
+.work-card__media img {
+  translate: var(--depth-x, 0px) var(--depth-y, 0px) !important;
 }
 .work-card__media span { font-family: var(--font-display); font-style: italic; color: rgba(46,43,40,0.35); }
 .work-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -1300,39 +1877,255 @@ p.kind-words__subtitle {
   font-size: var(--step-md);
   color: var(--color-wine);
 }
-.contact__lead {
-  margin-top: var(--space-5);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-style: italic;
-  color: var(--color-charcoal);
-  font-size: var(--step-md);
-  max-width: 30rem;
+/* The finale: deep wine lit by a slow, drifting honey glow — the same late
+   sun as the Projects curtain — with a large, faint sun turning behind the
+   words. The form is a letter rather than a card: fine rules, labels that
+   float up as you write, and a honey line drawing under the field in use.
+   Everything here is scoped to #contact; the generic .form/.field rules
+   further down stay as they are for anywhere else that uses them. */
+/* (Scoped to the home page: journal.html has its own, lighter #contact
+   call-to-action that should keep the butter background.) */
+.has-hero-photo #contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(5rem, 11vw, 9rem);
+  background:
+    radial-gradient(120% 90% at 85% 110%, rgba(184, 134, 42, 0.28), transparent 60%),
+    linear-gradient(160deg, #5a2130 0%, var(--color-wine-deep) 55%, #3a141d 100%);
+  color: var(--color-on-dark);
 }
-.contact__body {
-  margin-top: var(--space-4);
-  color: var(--color-charcoal-soft);
-  font-size: var(--step-md);
-  max-width: 30rem;
+.contact__glow {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(40% 45% at 30% 35%, rgba(235, 186, 89, 0.22), transparent 70%),
+    radial-gradient(35% 40% at 75% 70%, rgba(250, 215, 122, 0.12), transparent 70%);
+  pointer-events: none;
+  animation: contactGlow 18s ease-in-out infinite alternate;
+}
+@keyframes contactGlow {
+  0% { transform: translate3d(-4%, -2%, 0) scale(1); opacity: 0.85; }
+  50% { transform: translate3d(3%, 3%, 0) scale(1.08); opacity: 1; }
+  100% { transform: translate3d(6%, -3%, 0) scale(1.02); opacity: 0.8; }
+}
+/* The brand's own sun (the rays from the favicon), drawn as fine honey
+   line-art so it reads as a quiet mark rather than a filled disc. */
+.contact__sun {
+  position: absolute;
+  z-index: -1;
+  top: clamp(-14rem, -15vw, -6rem);
+  left: clamp(-10rem, -8vw, -4rem);
+  display: block;
+  width: clamp(22rem, 42vw, 38rem);
+  height: auto;
+  color: var(--color-honey);
+  opacity: 0.3;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  pointer-events: none;
+  animation: contactSun 120s linear infinite;
+}
+.contact__sun * { vector-effect: non-scaling-stroke; }
+@keyframes contactSun {
+  to { transform: rotate(360deg); }
 }
 
 .contact__grid {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: start;
 }
-.contact__email {
-  display: inline-block;
-  margin-top: var(--space-10);
+.has-hero-photo #contact h2 { color: #f7efe0; }
+.contact__lead {
+  margin-top: var(--space-6);
   font-family: var(--font-display);
-  font-weight: 700;
-  font-style: normal;
+  font-style: italic;
+  font-weight: 500;
   font-size: var(--step-lg);
-  color: var(--color-charcoal);
-  border-bottom: 1px solid transparent;
-  transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+  line-height: 1.35;
+  color: var(--color-butter);
+  max-width: 28rem;
 }
-.contact__email:hover { color: var(--color-honey); border-color: var(--color-honey); }
+.contact__body {
+  margin-top: var(--space-5);
+  font-size: var(--step-base);
+  line-height: 1.75;
+  color: rgba(247, 239, 224, 0.74);
+  max-width: 30rem;
+}
+/* The email address, with a honey underline that draws in on hover. */
+.contact__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: var(--space-12);
+  padding-bottom: 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-xl);
+  color: #f7efe0;
+  background:
+    linear-gradient(var(--color-honey), var(--color-honey)) left bottom / 0% 1px no-repeat,
+    linear-gradient(rgba(247, 239, 224, 0.25), rgba(247, 239, 224, 0.25)) left bottom / 100% 1px no-repeat;
+  transition: background-size 0.6s var(--ease-out), color 0.4s var(--ease-out);
+}
+.contact__email svg {
+  width: 0.8em;
+  height: 0.8em;
+  transition: transform 0.4s var(--ease-out);
+}
+.contact__email:hover {
+  color: var(--color-honey);
+  background-size: 100% 1px, 100% 1px;
+}
+.contact__email:hover svg { transform: translateX(4px); }
+
+/* No panel: like the site's service cards, the form sits openly on the
+   section — the brand sun above it, a single hairline setting it apart
+   from the words on the left. */
+#contact .form {
+  padding: 0 0 0 clamp(2rem, 5vw, 4.5rem);
+  border: 0;
+  border-left: 1px solid rgba(250, 215, 122, 0.2);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.form__sun {
+  display: block;
+  width: 32px;
+  height: auto;
+  transition: transform 0.6s var(--ease-out);
+}
+#contact .form:hover .form__sun,
+#contact .form:focus-within .form__sun {
+  transform: rotate(35deg);
+}
+#contact .form__intro {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-8);
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--step-md);
+  color: var(--color-butter);
+}
+#contact .field-row { gap: var(--space-6); }
+#contact .field {
+  position: relative;
+  margin-bottom: var(--space-6);
+}
+#contact .field input,
+#contact .field textarea {
+  display: block;
+  width: 100%;
+  padding: 1.4rem 0 0.6rem;
+  border: 0;
+  border-bottom: 1px solid rgba(247, 239, 224, 0.28);
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--step-base);
+  color: #f7efe0;
+  caret-color: var(--color-honey);
+  box-shadow: none;
+  outline: none;
+}
+#contact .field textarea {
+  min-height: 7rem;
+  line-height: 1.6;
+  resize: none;
+}
+#contact .field input:focus,
+#contact .field textarea:focus {
+  border-color: rgba(247, 239, 224, 0.28);
+  box-shadow: none;
+}
+#contact .field input:-webkit-autofill {
+  -webkit-text-fill-color: #f7efe0;
+  transition: background-color 600000s 0s;
+}
+/* Labels sit in the field like a prompt, then float up as you write. */
+#contact .field label {
+  position: absolute;
+  left: 0;
+  top: 1.4rem;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--step-sm);
+  text-transform: none;
+  letter-spacing: 0.03em;
+  color: rgba(247, 239, 224, 0.62);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform 0.4s var(--ease-out), color 0.4s var(--ease-out), letter-spacing 0.4s var(--ease-out);
+}
+#contact .field input:focus + label,
+#contact .field input:not(:placeholder-shown) + label,
+#contact .field textarea:focus + label,
+#contact .field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-1.3rem) scale(0.78);
+  color: var(--color-honey);
+  letter-spacing: 0.1em;
+}
+/* The honey line that draws under whichever field you're writing in. */
+#contact .field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-honey), var(--color-butter));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out);
+}
+#contact .field:focus-within::after { transform: scaleX(1); }
+
+/* The site's own primary button — butter, square-cornered, the arrow
+   nudging forward on hover — just like the hero's call to action. */
+#contact .form__submit {
+  width: auto;
+  margin-top: var(--space-4);
+  background: var(--color-butter);
+  color: var(--color-charcoal);
+}
+#contact .form__submit:hover { background: var(--color-honey); }
+#contact .form__submit:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+#contact .form__status {
+  text-align: left;
+  color: var(--color-butter);
+}
+
+@media (max-width: 900px) {
+  .contact__sun {
+    width: 20rem;
+    top: -5rem;
+    left: -6rem;
+  }
+  #contact .field-row { gap: 0; }
+  /* Stacked: the hairline moves from beside the form to above it. */
+  #contact .form {
+    padding: var(--space-12) 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(250, 215, 122, 0.2);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact__glow,
+  .contact__sun { animation: none; }
+}
 
 .form {
   background: var(--color-card);
@@ -1421,6 +2214,30 @@ p.kind-words__subtitle {
   font-size: var(--step-xs);
   color: var(--color-charcoal-faint);
 }
+
+/* Home page: the footer carries the contact section's wine straight on, no
+   seam and no divider — the last stretch of the contact section fades into
+   one flat wine tone, and the footer is exactly that tone. (The journal
+   keeps its butter footer and dark logo.) */
+.has-hero-photo #contact::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(63, 22, 32, 0), #3f1620);
+  pointer-events: none;
+}
+.has-hero-photo .site-footer {
+  background: #3f1620;
+  color: var(--color-on-dark);
+  border-top: 0;
+  padding-top: var(--space-8);
+}
+.has-hero-photo .footer__copyright { color: rgba(247, 239, 224, 0.72); }
+.has-hero-photo .footer__credit { color: rgba(247, 239, 224, 0.5); }
 
 /* ==========================================================================
    Reveal on scroll

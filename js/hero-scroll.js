@@ -4,11 +4,12 @@
   const video = document.getElementById('hero-video');
   const heroSection = document.querySelector('.hero--photo');
   const heroContent = document.querySelector('.hero__content');
-  const scrollCue = document.querySelector('.scroll-cue');
   const introOverlay = document.querySelector('.hero__intro-overlay');
   const introLines = document.querySelectorAll('.hero__intro-overlay .intro__statement-line');
   const introLine1 = introLines[0];
   const introLine2 = introLines[1];
+  // The dolphin clip carries the film on underwater once the pin releases.
+  const nextVideo = document.getElementById('hero-video-next');
   if (!video || !heroSection) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -98,12 +99,10 @@
           heroContent.style.transform = `translateY(${fade * -24}px)`;
           heroContent.style.pointerEvents = opacity < 0.05 ? 'none' : '';
         }
-        if (scrollCue) {
-          scrollCue.style.opacity = opacity;
-        }
 
         // "Home isn't a place." appears the moment the cave opens onto the
-        // lake, holds through that view, then clears away before the dive.
+        // lake and holds right through the dolphin's leap, only clearing
+        // away as it falls back into the water (the splash, ~0.80).
         // "It's a feeling." only fades in once the footage has fully cut
         // underwater (the splash and surface shots stay clear of it), and
         // holds through the end of the clip, so the pin only releases once
@@ -111,8 +110,8 @@
         if (introLine1 && introLine2) {
           const L1_IN_FROM = 0.445;
           const L1_IN_TO = 0.499;
-          const L1_OUT_FROM = 0.652;
-          const L1_OUT_TO = 0.691;
+          const L1_OUT_FROM = 0.795;
+          const L1_OUT_TO = 0.83;
           const L2_IN_FROM = 0.868;
           const L2_IN_TO = 0.898;
 
@@ -129,17 +128,36 @@
         }
       },
       onLeave() {
-        // Scrolled past the end of the pin — let the clip keep playing for
-        // real, rather than freezing on its last scrubbed frame, for as
-        // long as it's still visible.
-        allowPlayback = true;
+        // Scrolled past the end of the pin — the film carries on underwater
+        // instead of freezing on its last frame: the dolphin clip picks up
+        // exactly where this one ends and plays on in the same frame for as
+        // long as the hero is still in view.
         if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (nextVideo) {
+          // The eased scrub can still be a few frames behind on a fast
+          // scroll (or a jump from the nav) — land it on the true last frame
+          // so the hand-off always starts from where the film really ends.
+          current = target = video.duration || 0;
+          video.dataset.scrubbing = 'true';
+          try { video.currentTime = video.duration || 0; } catch (e) { /* not loaded yet */ }
+          delete video.dataset.scrubbing;
+          try { nextVideo.currentTime = 0; } catch (e) { /* not loaded yet */ }
+          nextVideo.classList.add('is-playing');
+          const p = nextVideo.play();
+          if (p && typeof p.then === 'function') p.catch(() => {});
+          return;
+        }
+        allowPlayback = true;
         const p = video.play();
         if (p && typeof p.then === 'function') p.catch(() => {});
       },
       onEnterBack(self) {
-        // Scrolled back up into the pin range — hand control back to the
-        // scrub.
+        // Scrolled back up into the pin range — hide the continuation and
+        // hand control back to the scrub.
+        if (nextVideo) {
+          nextVideo.pause();
+          nextVideo.classList.remove('is-playing');
+        }
         allowPlayback = false;
         video.pause();
         target = self.progress * (video.duration || 0);
@@ -150,10 +168,17 @@
   }
 
   // Once the section has scrolled fully out of view, there's no reason for
-  // the handed-off playback to keep running.
+  // the handed-off playback to keep running — and if it comes back into
+  // view from below, the continuation picks up where it left off.
   new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting && allowPlayback) video.pause();
+      if (!entry.isIntersecting) {
+        if (allowPlayback) video.pause();
+        if (nextVideo) nextVideo.pause();
+      } else if (nextVideo && nextVideo.classList.contains('is-playing') && !nextVideo.ended) {
+        const p = nextVideo.play();
+        if (p && typeof p.then === 'function') p.catch(() => {});
+      }
     });
   }, { threshold: 0 }).observe(heroSection);
 
